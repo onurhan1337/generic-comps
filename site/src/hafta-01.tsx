@@ -12,9 +12,9 @@ const GORSEL = { src: `${import.meta.env.BASE_URL}demo/puzzle-gorseli.svg` };
 const ANAHTAR = "vitrin";
 
 const HEDIYELER = [
-  { hediyeBasligi: "Seyahat Boy Parfüm", hediyeAciklamasi: "10 ml, kampanyaya özel", rozetMetni: "Hediye" },
-  { hediyeBasligi: "Bez Çanta", hediyeAciklamasi: "Organik pamuk, limitli", rozetMetni: "Yeni" },
-  { hediyeBasligi: "Mini Bakım Seti", hediyeAciklamasi: "Üç ürünlük deneme boy", rozetMetni: "Hediye" },
+  { hediyeBasligi: "Ekstra %10 indirim", hediyeAciklamasi: "Sepetine otomatik uygulanır", rozetMetni: "İndirim" },
+  { hediyeBasligi: "Seyahat boy parfüm", hediyeAciklamasi: "10 ml, kampanyaya özel", rozetMetni: "Hediye" },
+  { hediyeBasligi: "Ücretsiz kargo", hediyeAciklamasi: "Bu siparişe özel", rozetMetni: "Kargo" },
 ];
 
 const aralik = (deger: number, birim: string | null = null) => ({ value: deger, unit: birim }) as any;
@@ -53,6 +53,8 @@ function PuzzleDemo() {
   const [sureli, setSureli] = useState(false);
   const [hediye, setHediye] = useState(true);
   const [vurgu, setVurgu] = useState("#1d1d1f");
+  const [kutuModu, setKutuModu] = useState(true);
+  const [karistirmaHakki, setKaristirmaHakki] = useState(0);
   const [surum, setSurum] = useState(0);
 
   const yenile = (islem?: () => void) => {
@@ -131,6 +133,25 @@ function PuzzleDemo() {
           />
           Süre limiti
         </label>
+        <label>
+          Karıştırma hakkı
+          <select
+            value={String(karistirmaHakki)}
+            onChange={(e) => setKaristirmaHakki(Number((e.target as HTMLSelectElement).value))}
+          >
+            <option value="0">Sınırsız</option>
+            <option value="1">1 hak</option>
+            <option value="3">3 hak</option>
+          </select>
+        </label>
+        <label className="onay">
+          <input
+            type="checkbox"
+            checked={kutuModu}
+            onChange={(e) => setKutuModu((e.target as HTMLInputElement).checked)}
+          />
+          Sürpriz kutu
+        </label>
         <label className="onay">
           <input
             type="checkbox"
@@ -183,8 +204,8 @@ function PuzzleDemo() {
         odulButonMetni="Alışverişe başla"
         konfetiEfekti
         hediyeAdimiAktif={hediye}
-        hediyeBasligi="Hediyeni seç"
-        hediyeAciklamasi="Aşağıdaki hediyelerden birini seçebilirsin."
+        hediyeBasligi={kutuModu ? "Bir kutu aç" : "Hediyeni seç"}
+        hediyeAciklamasi={kutuModu ? "Yalnızca bir kutu açabilirsin." : "Aşağıdaki hediyelerden birini seçebilirsin."}
         hediyeKartlari={
           HEDIYELER.map((h) => (
             <PuzzleHediyeKarti
@@ -194,6 +215,8 @@ function PuzzleDemo() {
               rozetMetni={h.rozetMetni}
               secimButonMetni="Bu hediyeyi seç"
               secildiButonMetni="Seçildi"
+              kutuKapakMetni="Sürpriz kutu"
+              kutuAcMetni="Kutuyu aç"
               kartArkaPlanRengi="#ffffff"
               metinRengi="#1d1d1f"
               vurguRengi={vurgu}
@@ -206,6 +229,8 @@ function PuzzleDemo() {
         hediyeBosMetni="Bu alana editörden hediye kartı ekleyebilirsin."
         baslaButonMetni="Puzzle'ı başlat"
         sifirlaButonMetni="Yeniden karıştır"
+        yenidenBaslaButonMetni="Yeniden başla"
+        hediyeKullanildiMetni="Bu hediyeyi zaten aldın"
         ilerlemeMetni="{tamamlanan} / {toplam}"
         kalanSureMetni="{sure}"
         hamleMetni="{hamle} hamle"
@@ -215,9 +240,14 @@ function PuzzleDemo() {
         gorselYokMetni="Puzzle görseli seçilmedi."
         parcaAlEtiketi="Puzzle parçası {no}"
         slotEtiketi="{no}. parça yuvası"
-        oynanisIpucuMetni="Parçaları sürükleyip doğru yerlerine bırak."
-        sureBilgiMetni="Başladığında {sure} geri sayım başlar."
-        yaziTipi="sistem"
+        oynanisIpucuMetni=""
+        sureBilgiMetni=""
+        karistirmaHakki={karistirmaHakki}
+        karistirmaHakkiMetni="Yeniden karıştır ({kalan})"
+        hakBittiMetni="Karıştırma hakkın bitti"
+        tepsiTamamlandiMetni="Tüm parçalar yerleşti"
+        hediyeKutuModu={kutuModu}
+        kutuKilitliMetni="Bu tur için bir kutu açtın"
         arkaPlanRengi="#f5f5f7"
         metinRengi="#1d1d1f"
         vurguRengi={vurgu}

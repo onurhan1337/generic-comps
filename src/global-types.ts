@@ -7,7 +7,5 @@ export type PuzzleHediyeSecimDavranisi = "sepeteEkle" | "baglantiyaGit" | "isare
 export type PuzzleTepsiKonumu = "alt" | "sag" | "sol";
 /** Enum type: y6mbEONLkf */
 export type PuzzleYanlisParcaDavranisi = "geriDon" | "kal";
-/** Enum type: lJkqeARtD4 */
-export type PuzzleYaziTipi = "tema" | "sistem" | "geometrik" | "serif";
 /** Enum type: kU7p9BBTRx */
 export type PuzzleZorluk = "kolay" | "orta" | "zor";

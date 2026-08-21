@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -46,7 +46,7 @@
           <div class="meta-satiri">
             <span class="etiket">Hafta 01</span>
             <span class="etiket">1 section + 1 component</span>
-            <span class="etiket">60 prop · 7 grup</span>
+            <span class="etiket">67 prop · 7 grup</span>
             <span class="etiket">Preact · TypeScript</span>
             <span class="etiket">Bağımlılık yok</span>
             <span class="etiket">Mobil · tablet · masaüstü</span>
@@ -137,7 +137,7 @@
           </p>
           <p>
             Konfeti efekti kapatılabiliyor ve <code>prefers-reduced-motion</code> açık kullanıcılarda
-            otomatik devre dışı kalıyor. Parçalar yerleşince tepsi de kapanıyor, yani boş alan kalmıyor.
+            otomatik devre dışı kalıyor. Son parça yerleşince tepsi boş bir dikdörtgen olarak kalmıyor: yerini onay ikonlu bir kutlama durumu alıyor.
           </p>
           <figure class="gorsel-yeri" id="ss-odul">
             <div class="bos">[ekran görüntüsü: tamamlanmış puzzle + açılan ödül paneli, konfetiyle]</div>
@@ -158,6 +158,16 @@
             parmakla kullanımda hedef alanı büyük. Seçim, kartlar ayrı paketlerde çalıştığı için
             <code>window</code> üzerinden <code>CustomEvent</code> ile bölüme iletiliyor.
           </p>
+          <p>
+            <strong>Sürpriz kutu modu</strong> (<code>hediyeKutuModu</code>) aynı slotları bir "kutu aç"
+            mekaniğine çeviriyor ve adımı <strong>tahtanın üstüne</strong> taşıyor: puzzle tamamlanınca
+            kutular biten görselin üzerinde yan yana beliriyor. Kullanıcı tur başına yalnızca
+            <strong>bir</strong> kutu açabiliyor — açılan kutu içeriğini gösterirken diğerleri
+            kilitleniyor, konfeti o anda patlıyor ve kupon şeridi hemen altında açılıyor. Yeniden
+            oynanabilir kampanyalarda kutuların altında ikincil bir "yeniden karıştır" butonu duruyor.
+            Böylece aynı bileşenle "hediyeni seç" yerine farklı indirim oranlarının olduğu bir şans
+            kutusu kurabiliyorsun.
+          </p>
           <figure class="gorsel-yeri" id="ss-hediye">
             <div class="bos">[ekran görüntüsü: hediye seçimi adımı — üç hediye kartı, biri seçili]</div>
             <figcaption>Hediye kartları editörden dinamik olarak eklenir.</figcaption>
@@ -165,9 +175,9 @@
 
           <h3>6. Oyunlaştırma katmanı</h3>
           <p>
-            Üstteki etiket düz bir "KAMPANYA" yazısı değil, ikonlu bir rozet — ve içindeki puzzle
-            parçası, tahtadaki parçalarla <strong>aynı jigsaw üretecinden</strong> çiziliyor, ayrı bir
-            ikon dosyası yok.
+            Üstteki etiket düz bir "KAMPANYA" yazısı değil, puzzle parçası ikonlu bir rozet: bölümün
+            bir mini oyun olduğunu daha okumadan söylüyor. Metni de prop, mağaza kendi dilini
+            yazabiliyor.
           </p>
           <p>
             İlerleme, 20 parçaya kadar tek tek kutucuk olarak gösteriliyor: kaç parçan kaldığını
@@ -175,9 +185,15 @@
             dolduruyor. Daha büyük puzzle'larda gösterge otomatik olarak sürekli çubuğa dönüyor.
           </p>
           <p>
-            Süre limiti açıkken kartın üst kenarında tükenen ince bir şerit var. Son çeyreğe
-            girildiğinde (ya da son 10 saniyede) hem şerit hem geri sayım rozeti uyarı rengine geçip
-            nabız gibi atmaya başlıyor — sayfanın ortasında bile fark ediliyor.
+            Geri sayım tek bir rozette duruyor; hareketli bir şeritle dikkat dağıtmıyor. Son çeyreğe
+            girildiğinde (ya da son 10 saniyede) rozet uyarı rengine geçip nabız gibi atmaya
+            başlıyor — heyecan buradan geliyor, yerleşimden değil.
+          </p>
+          <p>
+            <code>karistirmaHakki</code> ile yeniden karıştırma sınırlanabiliyor. Hak sınırlıysa buton
+            kalan hakkı yazıyor ("Yeniden karıştır (2)"), hak bitince yerini pasif bir
+            <code>hakBittiMetni</code> rozeti alıyor. 0 girilirse sınırsız. Hak ziyaret başına
+            veriliyor — kalıcı saklansaydı önceki oturumların denemeleri hakkı tüketmiş görünürdü.
           </p>
 
           <h3>7. Başlangıç ekranı</h3>
@@ -186,7 +202,14 @@
             açıklamak zorunda. Örtü koyu bir perde değil, <strong>hafif bir cam katman</strong>:
             altındaki görsel seçiliyor, ne olduğu anlaşılıyor. Butonun altında tek satırlık bir
             oynanış ipucu, süre limiti açıksa da "başladığında ne kadar süren olacağı" ayrı bir
-            rozette yazıyor — kullanıcı geri sayımı başlatmadan önce görüyor.
+            rozette yazıyor — kullanıcı geri sayımı başlatmadan önce görüyor. İkisi de opsiyonel:
+            prop'u boşaltırsan ekranda yalnızca buton kalıyor.
+          </p>
+          <p>
+            Bu ekranda rehber görsel de açılıyor: kullanıcı neyi tamamlayacağını görmeden "başlat"
+            demek zorunda kalmıyor. Süre limiti açıkken geri sayım <strong>asla kendiliğinden
+            başlamıyor</strong> — kayıtlı yarım ilerleme bile geri yüklenmiyor, çünkü sayaç ancak
+            kullanıcı butona bastığında işlemeli.
           </p>
 
           <h3>8. Tasarım dili</h3>
@@ -199,14 +222,14 @@
           <p>
             Butonlar düz renk değil: üstte ışık, altta gölge, kenarda iç çizgi ve vurgu renginden
             yayılan yumuşak bir hâle. Bu katmanlar seçilen renge göre türetildiği için palet
-            değiştiğinde efekt bozulmuyor. Yazı tipi de prop — tema fontu, sistem (SF/Inter),
-            geometrik (Avenir) ya da zarif serif arasından seçilebiliyor. Tüm renkler ve font
-            mağazanın kendi kimliğine uyarlanabilir.
+            değiştiğinde efekt bozulmuyor. Tipografi de bölümün kendi kimliği: başlıklar için
+            <strong>Sora</strong>, arayüz için <strong>Inter Tight</strong> bileşenin kendi CSS'inde
+            <code>@font-face</code> ile tanımlı (Türkçe için latin-ext dahil) — <code>@import</code>
+            satırını taşıyan tema derleyicilerinde bile yükleniyor, mağazanın temasından bağımsız
+            olarak her yerde aynı karakterde duruyor. Renkler ise tamamen mağazanın kimliğine uyarlanabilir.
           </p>
 
           <h3>9. Editör deneyimi</h3>
-
-          <h3>7. Editör deneyimi</h3>
           <p>
             Tüm prop'lar Türkçe adlandırıldı, her birinin açıklaması var ve yedi gruba ayrıldı:
             İçerik, Puzzle Ayarları, Oyun Kuralları, Ödül, Hediye Seçimi, Metinler, Görünüm. Ekranda

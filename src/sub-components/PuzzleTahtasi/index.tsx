@@ -30,6 +30,12 @@ interface Props {
   koseYuvarlakligi: number;
   parcaAlEtiketi: string;
   slotEtiketi: string;
+  /** Son parça da yerleştiğinde tepside gösterilen kutlama metni. */
+  tamamlandiMetni: string;
+  /** Oyun bitti mi — tepsi boşaldığında yerine kutlama durumu geçer. */
+  tamamlandi: boolean;
+  /** Oyun henüz başlamadı: rehber görsel, ne yapılacağı anlaşılsın diye açılır. */
+  onizleme: boolean;
 }
 
 interface Konum {
@@ -86,6 +92,9 @@ const PuzzleTahtasi = observer(function PuzzleTahtasi({
   koseYuvarlakligi,
   parcaAlEtiketi,
   slotEtiketi,
+  tamamlandiMetni,
+  tamamlandi,
+  onizleme,
 }: Props) {
   const alanRef = useRef<HTMLDivElement | null>(null);
   const tahtaRef = useRef<HTMLDivElement | null>(null);
@@ -395,7 +404,10 @@ const PuzzleTahtasi = observer(function PuzzleTahtasi({
     "puzzle-alan",
     `tepsi-${tepsiKonumu ?? "alt"}`,
     aktif ? "aktif" : "pasif",
-  ].join(" ");
+    onizleme ? "onizleme" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className={alanSinifi} ref={alanRef}>
@@ -453,6 +465,8 @@ const PuzzleTahtasi = observer(function PuzzleTahtasi({
           ))}
       </div>
 
+      {/* Tepsi boşalınca yok olmaz: yerini kutlama durumu alır, böylece yan
+          sütun bomboş bir dikdörtgen olarak kalmaz. */}
       <div
         className={hepsiYerlesti ? "tepsi bos" : "tepsi"}
         ref={tepsiRef}
@@ -460,12 +474,52 @@ const PuzzleTahtasi = observer(function PuzzleTahtasi({
           backgroundColor: tahtaArkaPlanRengi,
           borderRadius: `${koseYuvarlakligi}px`,
           height: hepsiYerlesti
-            ? "0px"
+            ? yanYana
+              ? `${tahtaYukseklik}px`
+              : undefined
             : olculerHazir
               ? `${yanYana ? tahtaYukseklik : plan.yukseklik}px`
               : undefined,
         }}
-      />
+      >
+        {hepsiYerlesti && tamamlandi && (
+          <div className="tepsi-tamam" role="status">
+            <span className="tepsi-tik" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path
+                  d="M5 12.6 9.6 17 19 7.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="tepsi-tamam-metin">{tamamlandiMetni}</span>
+          </div>
+        )}
+      </div>
+
+      {/* Köşe maskesi: kenar parçalarının dış köşeleri kare olduğu için
+          tahtanın yuvarlatılmış köşesinden taşıyorlardı. Yerleşmiş parçaların
+          (z-index 10) üstünde, sürüklenen parçaların (20/40) altında duran bu
+          çerçeve taşan köşeleri yüzey rengiyle örtüyor. */}
+      {olculerHazir && koseYuvarlakligi > 0 && (
+        <div
+          className="tahta-maske"
+          aria-hidden="true"
+          style={{
+            left: `${olcu.tahtaX}px`,
+            top: `${olcu.tahtaY}px`,
+            width: `${olcu.tahtaG}px`,
+            height: `${tahtaYukseklik}px`,
+            borderRadius: `${koseYuvarlakligi}px`,
+            boxShadow: `0 0 0 10px ${tahtaArkaPlanRengi}`,
+            clipPath: `inset(-10px round ${koseYuvarlakligi + 10}px)`,
+          }}
+        />
+      )}
 
       {/* Parça maskeleri — clipPath tanımları */}
       {olculerHazir && (

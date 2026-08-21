@@ -13,6 +13,8 @@ interface Props {
   metinRengi: string;
   vurguRengi: string;
   bosMetin: string;
+  /** Tahtanın üstünde (kutu adımında) gösterilirken ayraç ve üst boşluk kalkar. */
+  sade?: boolean;
 }
 
 const HediyeSecimi = observer(function HediyeSecimi({
@@ -25,23 +27,27 @@ const HediyeSecimi = observer(function HediyeSecimi({
   metinRengi,
   vurguRengi,
   bosMetin,
+  sade,
 }: Props) {
   const kartListesi = (kartlar as any[]) ?? [];
 
   return (
-    <div className="hediye-serit" style={{ color: metinRengi }}>
+    <div className={sade ? "hediye-serit sade" : "hediye-serit"} style={{ color: metinRengi }}>
       <div className="hediye-basliklar">
         <h4 className="hediye-baslik">{baslik}</h4>
         {aciklama && <p className="hediye-aciklama">{aciklama}</p>}
       </div>
 
+      {/* Grid, renderer'ın kendisine değil kendi sarmalayıcımıza uygulanır:
+          runtime dışarıdan verilen className'i uygulamayabiliyor. */}
       {kartListesi.length > 0 ? (
-        <IkasComponentRenderer
-          id="hediye-kartlari"
-          className="hediye-kart-alani"
-          components={kartListesi}
-          parentProps={ustProplar}
-        />
+        <div className="hediye-kart-alani">
+          <IkasComponentRenderer
+            id="hediye-kartlari"
+            components={kartListesi}
+            parentProps={ustProplar}
+          />
+        </div>
       ) : (
         <p className="hediye-bos">{bosMetin}</p>
       )}

@@ -1,6 +1,6 @@
 // This file is auto-generated — do not edit manually.
 import type { IkasImage, IkasNumberRange, IkasNavigationLink } from "@ikas/bp-storefront";
-import type { PuzzleHediyeSecimDavranisi, PuzzleTepsiKonumu, PuzzleYanlisParcaDavranisi, PuzzleYaziTipi, PuzzleZorluk } from "../../global-types";
+import type { PuzzleHediyeSecimDavranisi, PuzzleTepsiKonumu, PuzzleYanlisParcaDavranisi, PuzzleZorluk } from "../../global-types";
 
 export interface Props {
   /** Başlığın üstünde görünen küçük etiket. Boş bırakırsan gösterilmez. */
@@ -113,8 +113,6 @@ export interface Props {
   dikeyBosluk?: IkasNumberRange;
   /** Hediye adımı açık ama henüz kart eklenmemişken editörde gösterilen uyarı. */
   hediyeBosMetni?: string;
-  /** Bölümün yazı tipi. 'Tema fontu' seçersen mağazanın kendi fontunu kullanır. */
-  yaziTipi?: PuzzleYaziTipi;
   /** Süre azaldığında geri sayımın ve süre çizgisinin aldığı renk. */
   uyariRengi?: string;
   /** Ana butona vurgu renginden yayılan yumuşak bir ışık efekti ekler. */
@@ -123,4 +121,20 @@ export interface Props {
   oynanisIpucuMetni?: string;
   /** Süre limiti açıkken başlangıç ekranında gösterilir. {sure} yerine toplam süre yazılır. */
   sureBilgiMetni?: string;
+  /** Kullanıcının puzzle'ı kaç kez yeniden karıştırabileceği. 0 girersen sınırsız olur. */
+  karistirmaHakki?: number;
+  /** Karıştırma hakkı sınırlıyken butonda görünür. {kalan} yerine kalan hak yazılır. */
+  karistirmaHakkiMetni?: string;
+  /** Yeniden karıştırma hakkı tükendiğinde butonun yerinde görünen metin. */
+  hakBittiMetni?: string;
+  /** Son parça da yerleştiğinde boşalan parça tepsisinde görünen kutlama metni. */
+  tepsiTamamlandiMetni?: string;
+  /** Hediyeleri kapalı kutu olarak gösterir. Kullanıcı yalnızca bir kutuyu açabilir, içindeki hediye açılınca görünür. */
+  hediyeKutuModu?: boolean;
+  /** Sürpriz kutu modunda bir kutu açıldıktan sonra diğer kutuların üstünde görünen metin. */
+  kutuKilitliMetni?: string;
+  /** Puzzle tamamlandıktan sonra yeniden oynamak için görünen ikincil butonun metni. */
+  yenidenBaslaButonMetni?: string;
+  /** Yeniden oynandığında, önceki turda seçilmiş hediyenin üzerinde görünen metin. O hediye tekrar seçilemez. */
+  hediyeKullanildiMetni?: string;
 }

@@ -13,6 +13,9 @@ export const DURUM_OLAYI = "ikas-puzzle-hediye-durumu";
 export interface HediyeSecimDetayi {
   /** Kartın kendi ürettiği benzersiz kimlik. */
   kartId: string;
+  /** Kartın slot içindeki sırası. Kimlikler her turda yenilendiği için
+      "hangi hediye alınmıştı" bilgisi bu sıraya göre tutulur. */
+  indeks?: number;
   baslik?: string;
   urun?: unknown;
   baglantiHref?: string;
@@ -21,6 +24,16 @@ export interface HediyeSecimDetayi {
 export interface HediyeDurumDetayi {
   /** Şu an seçili olan kartın kimliği; hiçbiri seçili değilse null. */
   seciliKartId: string | null;
+  /** Kartlar kapalı sürpriz kutu olarak mı gösterilecek? */
+  kutuModu?: boolean;
+  /** Bir kutu açıldıktan sonra diğerleri kilitlenir. */
+  kilitli?: boolean;
+  /** Kilitli kutuların üzerinde görünen metin. */
+  kilitMetni?: string;
+  /** Önceki turlarda alınmış kartların sıra numaraları — bunlar tekrar seçilemez. */
+  kullanilanIndeksler?: number[];
+  /** Kullanılmış hediyenin üzerinde görünen metin. */
+  kullanildiMetni?: string;
 }
 
 export function hediyeSecimiYayinla(detay: HediyeSecimDetayi): void {
@@ -52,4 +65,21 @@ let sayac = 0;
 export function benzersizKimlik(onEk: string): string {
   sayac += 1;
   return `${onEk}-${sayac.toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`;
+}
+
+export const ISTEK_OLAYI = "ikas-puzzle-hediye-durum-istegi";
+
+/**
+ * Kart mount olduğunda bölümden güncel durumu ister. Kart ile bölüm ayrı
+ * paketlerde çalıştığı için ilk render'da kutu modunu bilmesinin tek yolu bu.
+ */
+export function hediyeDurumuIste(): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(ISTEK_OLAYI));
+}
+
+export function hediyeDurumIstegineAbone(dinleyici: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener(ISTEK_OLAYI, dinleyici);
+  return () => window.removeEventListener(ISTEK_OLAYI, dinleyici);
 }

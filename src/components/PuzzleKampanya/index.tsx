@@ -10,11 +10,12 @@ import OdulPaneli from "../../sub-components/OdulPaneli";
 import HediyeSecimi from "../../sub-components/HediyeSecimi";
 import Konfeti from "../../sub-components/Konfeti";
 import {
+  hediyeDurumIstegineAbone,
   hediyeDurumuYayinla,
   hediyeSecimineAbone,
   type HediyeSecimDetayi,
 } from "../../lib/hediye-secim";
-import { metniDoldur, parcaPathUret, sureBicimle } from "../../lib/puzzle";
+import { metniDoldur, sureBicimle } from "../../lib/puzzle";
 import { Props } from "./types";
 
 type OyunDurumu = "hazir" | "oynaniyor" | "tamamlandi" | "sureBitti";
@@ -29,27 +30,24 @@ interface KayitliDurum {
 const DEPO_ONEKI = "ikas-puzzle:";
 
 /**
- * Rozet ikonu, parçalarla aynı jigsaw üretecinden çizilir — böylece
- * bölümdeki her puzzle silüeti aynı elden çıkmış olur.
+ * Rozet ikonu. Tahtadaki parça üreteci gerçek jigsaw eğrileri çiziyor ama o
+ * silüet 16 piksele indiğinde okunmuyordu; bu yüzden rozet, aynı fikrin
+ * elle sadeleştirilmiş hâli: üstte topuz, sağda girinti.
  */
-const ROZET_TIRTIK = 2.2;
-const ROZET_HUCRE = 9;
-const ROZET_KUTU = ROZET_HUCRE + ROZET_TIRTIK * 2;
-const ROZET_PATH = parcaPathUret(
-  { ust: 0, sag: 1, alt: 0, sol: -1 },
-  ROZET_HUCRE,
-  ROZET_HUCRE,
-  ROZET_TIRTIK
-);
+const ROZET_PATH =
+  "M6 4h4a2.4 2.4 0 1 1 4.8 0H19a1.2 1.2 0 0 1 1.2 1.2V10a2.4 2.4 0 1 0 0 4.8v4.8a1.2 1.2 0 0 1-1.2 1.2H5.2A1.2 1.2 0 0 1 4 19.6V5.2A1.2 1.2 0 0 1 5.2 4z";
 
-/** Yazı tipi seçeneklerinin karşılığı olan font yığınları. */
-const YAZI_TIPLERI: Record<string, string> = {
-  tema: "inherit",
-  sistem:
-    '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-  geometrik: '"Avenir Next", "Avenir", "Nunito Sans", "Segoe UI", system-ui, sans-serif',
-  serif: '"New York", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif',
-};
+/**
+ * Bölümün yazı tipi. Mağazanın temasından bağımsız olarak her yerde aynı
+ * premium görünümü versin diye sabit: önce mağazada yüklüyse dar-geniş
+ * "display" kesimleri, sonra platformun kendi sistem yüz(ler)i.
+ */
+const YAZI_TIPI =
+  '"Inter Tight", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+
+/** Başlıklar: styles.css içinde yüklenen display kesimi. */
+const BASLIK_YAZI_TIPI =
+  '"Sora", "Inter Tight", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
 function durumuOku(anahtar: string): KayitliDurum | null {
   if (typeof window === "undefined") return null;
@@ -115,8 +113,16 @@ export function PuzzleKampanya(props: Props) {
     hediyeSecimDavranisi,
     hediyeOnayMetni,
     hediyeBosMetni,
+    hediyeKutuModu,
+    kutuKilitliMetni,
     baslaButonMetni,
     sifirlaButonMetni,
+    yenidenBaslaButonMetni,
+    hediyeKullanildiMetni,
+    karistirmaHakki,
+    karistirmaHakkiMetni,
+    hakBittiMetni,
+    tepsiTamamlandiMetni,
     ilerlemeMetni,
     kalanSureMetni,
     hamleMetni,
@@ -134,7 +140,6 @@ export function PuzzleKampanya(props: Props) {
     vurguMetinRengi,
     tahtaArkaPlanRengi,
     parcaKenarRengi,
-    yaziTipi,
     uyariRengi,
     butonParlamasi,
     golgeYogunlugu,
@@ -157,6 +162,12 @@ export function PuzzleKampanya(props: Props) {
   const [hamle, setHamle] = useState(0);
   const [kalanSure, setKalanSure] = useState(toplamSure);
   const [seciliHediye, setSeciliHediye] = useState<string | null>(null);
+  const [karistirmaSayisi, setKaristirmaSayisi] = useState(0);
+  // Önceki turlarda alınmış hediyeler, kartın slot içindeki sırasına göre.
+  // Kart kimlikleri her turda yenilendiği, başlıklar ise aynı olabildiği için
+  // (üç kart da "Sürpriz Hediye" olabilir) kalıcı referans sıra numarasıdır.
+  const [kullanilanIndeksler, setKullanilanIndeksler] = useState<number[]>([]);
+  const seciliIndeksRef = useRef<number | null>(null);
   const [yuklendi, setYuklendi] = useState(false);
   const kaydetmeAnahtari = `${anahtar}:${satir}x${sutun}`;
 
@@ -168,11 +179,19 @@ export function PuzzleKampanya(props: Props) {
     const kayit = durumuOku(kaydetmeAnahtari);
     if (!kayit) return;
     setTur(kayit.tur ?? 0);
+    if (kayit.tamamlandi) {
+      setHamle(kayit.hamle ?? 0);
+      setYerlesenler(Array.isArray(kayit.yerlesenler) ? kayit.yerlesenler : []);
+      setDurum("tamamlandi");
+      return;
+    }
+    // Geri sayımlı oyunda yarım ilerleme geri yüklenmez: sayaç ancak kullanıcı
+    // "başlat" dediğinde işlemeli, sayfa açılır açılmaz değil.
+    if (sureLimitiAktif) return;
     setHamle(kayit.hamle ?? 0);
     setYerlesenler(Array.isArray(kayit.yerlesenler) ? kayit.yerlesenler : []);
-    if (kayit.tamamlandi) setDurum("tamamlandi");
-    else if ((kayit.yerlesenler?.length ?? 0) > 0) setDurum("oynaniyor");
-  }, [kaydetmeAnahtari, ilerlemeyiHatirla]);
+    if ((kayit.yerlesenler?.length ?? 0) > 0) setDurum("oynaniyor");
+  }, [kaydetmeAnahtari, ilerlemeyiHatirla, sureLimitiAktif]);
 
   // İlerlemeyi kaydet
   useEffect(() => {
@@ -184,6 +203,12 @@ export function PuzzleKampanya(props: Props) {
       tamamlandi: durum === "tamamlandi",
     });
   }, [yuklendi, ilerlemeyiHatirla, kaydetmeAnahtari, tur, yerlesenler, hamle, durum]);
+
+  // Karıştırma hakkı ziyaret başına verilir; ayar değiştiğinde de sıfırlanır.
+  // Kalıcı saklansaydı önceki oturumların denemeleri hakkı tüketmiş görünürdü.
+  useEffect(() => {
+    setKaristirmaSayisi(0);
+  }, [karistirmaHakki, kaydetmeAnahtari]);
 
   // Tüm parçalar yerleştiyse oyun tamamlanır
   useEffect(() => {
@@ -213,16 +238,35 @@ export function PuzzleKampanya(props: Props) {
     setKalanSure(toplamSure);
   }, [toplamSure]);
 
-  const oyunuSifirla = useCallback(() => {
-    setTur((onceki) => onceki + 1);
-    setYerlesenler([]);
-    setHamle(0);
-    setKalanSure(toplamSure);
-    setSeciliHediye(null);
-    setDurum("oynaniyor");
-    hediyeDurumuYayinla({ seciliKartId: null });
-    durumuSil(kaydetmeAnahtari);
-  }, [toplamSure, kaydetmeAnahtari]);
+  const turuSifirla = useCallback(
+    (hakHarca: boolean) => {
+      if (hakHarca) setKaristirmaSayisi((onceki) => onceki + 1);
+      setTur((onceki) => onceki + 1);
+      setYerlesenler([]);
+      setHamle(0);
+      setKalanSure(toplamSure);
+      setSeciliHediye(null);
+      // Geri sayımlı oyun kendiliğinden başlamaz; kullanıcı yeniden "başlat" der.
+      setDurum(sureLimitiAktif ? "hazir" : "oynaniyor");
+      durumuSil(kaydetmeAnahtari);
+    },
+    [toplamSure, kaydetmeAnahtari, sureLimitiAktif]
+  );
+
+  /** Oyun sırasında yeniden karıştırma — hak harcar. */
+  const oyunuSifirla = useCallback(() => turuSifirla(true), [turuSifirla]);
+
+  /** Tamamlandıktan sonra yeniden oynama — alınan hediye artık seçilemez. */
+  const yenidenBasla = useCallback(() => {
+    const alinan = seciliIndeksRef.current;
+    if (alinan !== null) {
+      setKullanilanIndeksler((onceki) =>
+        onceki.includes(alinan) ? onceki : [...onceki, alinan]
+      );
+    }
+    seciliIndeksRef.current = null;
+    turuSifirla(false);
+  }, [turuSifirla]);
 
   const parcaYerlesti = useCallback((indeks: number) => {
     setYerlesenler((onceki) => (onceki.includes(indeks) ? onceki : [...onceki, indeks]));
@@ -240,7 +284,7 @@ export function PuzzleKampanya(props: Props) {
     if (!hediyeAdimiAktif) return;
     return hediyeSecimineAbone(async (detay: HediyeSecimDetayi) => {
       setSeciliHediye(detay.kartId);
-      hediyeDurumuYayinla({ seciliKartId: detay.kartId });
+      seciliIndeksRef.current = typeof detay.indeks === "number" ? detay.indeks : null;
 
       const davranis = davranisRef.current ?? "sepeteEkle";
       if (davranis === "sepeteEkle" && detay.urun) {
@@ -252,6 +296,27 @@ export function PuzzleKampanya(props: Props) {
       }
     });
   }, [hediyeAdimiAktif]);
+
+  // Kutu modunda bir kutu açıldıysa diğerleri kilitlenir. Kartlar ayrı paketlerde
+  // çalıştığı için durum olay yoluyla yayınlanır; kartlar mount olduklarında da
+  // güncel durumu ister (aşağıdaki istek aboneliği ona cevap verir).
+  const hediyeDurumu = useMemo(
+    () => ({
+      seciliKartId: seciliHediye,
+      kutuModu: hediyeKutuModu !== false,
+      kilitli: seciliHediye !== null,
+      kilitMetni: kutuKilitliMetni ?? "Bu tur için bir kutu açtın",
+      kullanilanIndeksler,
+      kullanildiMetni: hediyeKullanildiMetni ?? "Bu hediyeyi zaten aldın",
+    }),
+    [seciliHediye, hediyeKutuModu, kutuKilitliMetni, kullanilanIndeksler, hediyeKullanildiMetni]
+  );
+
+  useEffect(() => {
+    if (!hediyeAdimiAktif) return;
+    hediyeDurumuYayinla(hediyeDurumu);
+    return hediyeDurumIstegineAbone(() => hediyeDurumuYayinla(hediyeDurumu));
+  }, [hediyeAdimiAktif, hediyeDurumu]);
 
   const golgeOrani = (golgeYogunlugu?.value ?? 35) / 100;
   const kose = koseYuvarlakligi?.value ?? 20;
@@ -272,12 +337,31 @@ export function PuzzleKampanya(props: Props) {
   );
 
   const oynaniyorMu = durum === "oynaniyor";
+
+  // Yeniden karıştırma hakkı — 0 girildiyse sınırsız.
+  const karistirmaLimiti = Math.max(0, Math.round(karistirmaHakki ?? 0));
+  const sinirliHak = karistirmaLimiti > 0;
+  const kalanHak = sinirliHak ? Math.max(0, karistirmaLimiti - karistirmaSayisi) : Infinity;
+  const hakVar = kalanHak > 0;
+  const sifirlaYazisi = sinirliHak
+    ? metniDoldur(karistirmaHakkiMetni ?? "Yeniden karıştır ({kalan})", { kalan: kalanHak })
+    : sifirlaButonMetni ?? "Yeniden karıştır";
+  const hakBittiYazisi = hakBittiMetni ?? "Karıştırma hakkın bitti";
+
+  // Sürpriz kutu adımı tahtanın üstünde oynanır: puzzle tamamlanınca kutular
+  // görselin üzerine geliyor, biri açılınca ödül şeridi aşağıda beliriyor.
+  const kutuAdimi =
+    Boolean(hediyeAdimiAktif) && hediyeKutuModu !== false && durum === "tamamlandi";
+  const kutuAcildi = seciliHediye !== null;
+  const odulGorunur = durum === "tamamlandi" && (!kutuAdimi || kutuAcildi);
+  // Kutu adımında konfeti kutu açıldığında patlar — asıl "kazandın" anı orası.
+  const konfetiGorunur =
+    konfetiEfekti !== false && durum === "tamamlandi" && (!kutuAdimi || kutuAcildi);
   const yuzde = toplamParca > 0 ? (yerlesenler.length / toplamParca) * 100 : 0;
 
   // Son çeyrekte (ya da son 10 saniyede) geri sayım "acil" moda geçer.
   const acilEsigi = Math.max(10, Math.round(toplamSure * 0.25));
   const acilSure = Boolean(sureLimitiAktif) && oynaniyorMu && kalanSure <= acilEsigi;
-  const sureYuzdesi = toplamSure > 0 ? (kalanSure / toplamSure) * 100 : 0;
 
   // Az sayıda parçada tek tek kutucuk, çok parçada sürekli çubuk daha okunur.
   const pipGostergesi = toplamParca <= 20;
@@ -289,7 +373,8 @@ export function PuzzleKampanya(props: Props) {
     "--pk-yuzey": tahtaArkaPlanRengi || "#ffffff",
     "--pk-kose": `${kose}px`,
     "--pk-ic-kose": `${icKose}px`,
-    "--pk-font": YAZI_TIPLERI[yaziTipi ?? "sistem"] ?? YAZI_TIPLERI.sistem,
+    "--pk-font": YAZI_TIPI,
+    "--pk-baslik-font": BASLIK_YAZI_TIPI,
   } as Record<string, string>;
 
   return (
@@ -307,12 +392,14 @@ export function PuzzleKampanya(props: Props) {
         <header className="kampanya-baslik-alani">
           {ustEtiket && (
             <span className="ust-etiket">
-              <svg
-                className="etiket-ikon"
-                viewBox={`0 0 ${ROZET_KUTU} ${ROZET_KUTU}`}
-                aria-hidden="true"
-              >
-                <path d={ROZET_PATH} fill="currentColor" />
+              <svg className="etiket-ikon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d={ROZET_PATH}
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linejoin="round"
+                />
               </svg>
               {ustEtiket}
             </span>
@@ -333,15 +420,6 @@ export function PuzzleKampanya(props: Props) {
               borderRadius: `${kose}px`,
             }}
           >
-            {sureLimitiAktif && oynaniyorMu && (
-              <div className="sure-cizgisi" aria-hidden="true">
-                <span
-                  className={acilSure ? "sure-dolgu acil" : "sure-dolgu"}
-                  style={{ width: `${sureYuzdesi}%` }}
-                />
-              </div>
-            )}
-
             <div className="oyun-bar">
               <div
                 className="ilerleme-alani"
@@ -384,11 +462,15 @@ export function PuzzleKampanya(props: Props) {
                     {metniDoldur(hamleMetni ?? "{hamle}", { hamle })}
                   </span>
                 )}
-                {tekrarOynanabilir && durum !== "hazir" && (
-                  <button type="button" className="metin-buton" onClick={oyunuSifirla}>
-                    {sifirlaButonMetni ?? "Yeniden karıştır"}
-                  </button>
-                )}
+                {tekrarOynanabilir &&
+                  oynaniyorMu &&
+                  (hakVar ? (
+                    <button type="button" className="metin-buton" onClick={oyunuSifirla}>
+                      {sifirlaYazisi}
+                    </button>
+                  ) : (
+                    <span className="sayac bitti">{hakBittiYazisi}</span>
+                  ))}
               </div>
             </div>
 
@@ -413,6 +495,9 @@ export function PuzzleKampanya(props: Props) {
                 koseYuvarlakligi={icKose}
                 parcaAlEtiketi={parcaAlEtiketi ?? "Puzzle parçası {no}"}
                 slotEtiketi={slotEtiketi ?? "{no}. parça yuvası"}
+                tamamlandiMetni={tepsiTamamlandiMetni ?? "Tüm parçalar yerleşti"}
+                tamamlandi={durum === "tamamlandi"}
+                onizleme={durum === "hazir"}
               />
 
               {durum === "hazir" && (
@@ -444,26 +529,54 @@ export function PuzzleKampanya(props: Props) {
                   <div className="ortu-kutu">
                     <h3 className="ortu-baslik">{sureDolduBasligi ?? "Süre doldu"}</h3>
                     {sureDolduAciklamasi && <p className="ortu-metin">{sureDolduAciklamasi}</p>}
-                    <button
-                      type="button"
-                      className={butonParlamasi === false ? "ana-buton" : "ana-buton parlak"}
-                      onClick={oyunuSifirla}
-                    >
-                      {tekrarDeneButonMetni ?? "Tekrar dene"}
-                    </button>
+                    {hakVar ? (
+                      <button
+                        type="button"
+                        className={butonParlamasi === false ? "ana-buton" : "ana-buton parlak"}
+                        onClick={oyunuSifirla}
+                      >
+                        {tekrarDeneButonMetni ?? "Tekrar dene"}
+                      </button>
+                    ) : (
+                      <p className="ortu-sure">{hakBittiYazisi}</p>
+                    )}
                   </div>
                 </div>
               )}
 
-              {durum === "tamamlandi" && konfetiEfekti !== false && (
+              {kutuAdimi && (
+                <div className="ortu kutu-ortu" style={{ borderRadius: `${icKose}px` }}>
+                  <div className="ortu-kutu genis">
+                    <HediyeSecimi
+                      baslik={hediyeBasligi ?? "Hediyeni seç"}
+                      aciklama={hediyeAciklamasi}
+                      kartlar={hediyeKartlari}
+                      ustProplar={props as Record<string, any>}
+                      onayMetni={hediyeOnayMetni}
+                      secildi={kutuAcildi}
+                      metinRengi={metinRengi || "#1d1d1f"}
+                      vurguRengi={vurguRengi || "#1d1d1f"}
+                      bosMetin={hediyeBosMetni ?? ""}
+                      sade
+                    />
+                    {tekrarOynanabilir && (
+                      <button type="button" className="ikincil-buton" onClick={yenidenBasla}>
+                        {yenidenBaslaButonMetni ?? "Yeniden başla"}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {konfetiGorunur && (
                 <Konfeti
-                  seed={`${anahtar}:${tur}`}
+                  seed={`${anahtar}:${tur}:${seciliHediye ?? ""}`}
                   renkler={[vurguRengi || "#111111", "#f2b705", "#e8552d", "#2f9e8f"]}
                 />
               )}
             </div>
 
-            {durum === "tamamlandi" && (
+            {odulGorunur && (
               <div className="odul-alani">
                 <OdulPaneli
                   baslik={odulBasligi ?? "Tebrikler!"}
@@ -481,7 +594,7 @@ export function PuzzleKampanya(props: Props) {
                   butonParlamasi={butonParlamasi !== false}
                 />
 
-                {hediyeAdimiAktif && (
+                {hediyeAdimiAktif && !kutuAdimi && (
                   <HediyeSecimi
                     baslik={hediyeBasligi ?? "Hediyeni seç"}
                     aciklama={hediyeAciklamasi}
@@ -493,6 +606,14 @@ export function PuzzleKampanya(props: Props) {
                     vurguRengi={vurguRengi || "#1d1d1f"}
                     bosMetin={hediyeBosMetni ?? ""}
                   />
+                )}
+
+                {tekrarOynanabilir && !kutuAdimi && (
+                  <div className="odul-tekrar">
+                    <button type="button" className="ikincil-buton" onClick={yenidenBasla}>
+                      {yenidenBaslaButonMetni ?? "Yeniden başla"}
+                    </button>
+                  </div>
                 )}
               </div>
             )}

@@ -17,6 +17,32 @@
   }
 }
 
+/* Tahtanın üstünde gösterilen sade sürüm */
+.hediye-serit.sade {
+  padding: 0;
+  margin-top: 0;
+  border-top: 0;
+  width: 100%;
+}
+
+.hediye-serit.sade .hediye-basliklar {
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.hediye-serit.sade .hediye-baslik {
+  font-size: 16px;
+}
+
+.hediye-serit.sade .hediye-kart-alani {
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 8px;
+}
+
+.hediye-serit.sade .hediye-onay {
+  text-align: center;
+}
+
 .hediye-basliklar {
   display: flex;
   flex-wrap: wrap;
@@ -41,8 +67,19 @@
 
 .hediye-kart-alani {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 10px;
+  align-items: stretch;
+}
+
+/* Runtime kartları tek bir sarmalayıcının içine basarsa o sarmalayıcı
+   şeffaflaşır ve kartlar doğrudan grid hücresi olur. */
+.hediye-kart-alani > div:only-child {
+  display: contents;
+}
+
+.hediye-kart-alani > * > .hediye-karti {
+  height: 100%;
 }
 
 .hediye-bos {
@@ -62,8 +99,13 @@
 }
 
 @media (max-width: 560px) {
+  .hediye-serit.sade .hediye-kart-alani {
+    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+  }
+
   .hediye-kart-alani {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+    gap: 8px;
   }
 }
 

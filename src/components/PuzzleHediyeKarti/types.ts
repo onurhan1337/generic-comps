@@ -26,4 +26,8 @@ export interface Props {
   vurguRengi?: string;
   /** Kart köşelerinin yuvarlaklık miktarı. */
   koseYuvarlakligi?: IkasNumberRange;
+  /** Sürpriz kutu modunda kutu açılmadan önce kartta görünen başlık. */
+  kutuKapakMetni?: string;
+  /** Sürpriz kutu modunda kapalı kutunun üzerindeki aksiyon metni. */
+  kutuAcMetni?: string;
 }

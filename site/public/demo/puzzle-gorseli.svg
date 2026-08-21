@@ -19,8 +19,4 @@
     <circle cx="180" cy="160" r="4"/><circle cx="320" cy="110" r="3"/><circle cx="430" cy="210" r="3.5"/>
     <circle cx="240" cy="300" r="2.5"/><circle cx="620" cy="140" r="3"/><circle cx="120" cy="420" r="3"/>
   </g>
-  <text x="600" y="470" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700"
-        fill="#ffffff" text-anchor="middle" letter-spacing="-2">KAMPANYA</text>
-  <text x="600" y="530" font-family="Inter,Helvetica,Arial,sans-serif" font-size="28" font-weight="500"
-        fill="#ffffff" opacity="0.8" text-anchor="middle" letter-spacing="6">PUZZLE &#183; ÖDÜL &#183; HEDİYE</text>
 </svg>

@@ -123,6 +123,24 @@
             "interval": 2,
             "unit": "px"
           }
+        },
+        {
+          "name": "kutuKapakMetni",
+          "displayName": "Kutu kapağı metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Sürpriz kutu modunda kutu açılmadan önce kartta görünen başlık.",
+          "defaultValue": "Sürpriz kutu",
+          "groupId": "icerik"
+        },
+        {
+          "name": "kutuAcMetni",
+          "displayName": "Kutuyu aç metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Sürpriz kutu modunda kapalı kutunun üzerindeki aksiyon metni.",
+          "defaultValue": "Kutuyu aç",
+          "groupId": "aksiyon"
         }
       ],
       "propGroups": [
@@ -710,16 +728,6 @@
           "groupId": "hediye"
         },
         {
-          "name": "yaziTipi",
-          "displayName": "Yazı Tipi",
-          "type": "ENUM",
-          "required": false,
-          "description": "Bölümün yazı tipi. 'Tema fontu' seçersen mağazanın kendi fontunu kullanır.",
-          "defaultValue": "sistem",
-          "groupId": "gorunum",
-          "enumTypeId": "lJkqeARtD4"
-        },
-        {
           "name": "uyariRengi",
           "displayName": "Uyarı Rengi",
           "type": "COLOR",
@@ -753,6 +761,78 @@
           "required": false,
           "description": "Süre limiti açıkken başlangıç ekranında gösterilir. {sure} yerine toplam süre yazılır.",
           "defaultValue": "Başladığında {sure} geri sayım başlar.",
+          "groupId": "metinler"
+        },
+        {
+          "name": "karistirmaHakki",
+          "displayName": "Yeniden karıştırma hakkı",
+          "type": "NUMBER",
+          "required": false,
+          "description": "Kullanıcının puzzle'ı kaç kez yeniden karıştırabileceği. 0 girersen sınırsız olur.",
+          "defaultValue": 0,
+          "groupId": "kurallar"
+        },
+        {
+          "name": "karistirmaHakkiMetni",
+          "displayName": "Karıştırma hakkı metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Karıştırma hakkı sınırlıyken butonda görünür. {kalan} yerine kalan hak yazılır.",
+          "defaultValue": "Yeniden karıştır ({kalan})",
+          "groupId": "metinler"
+        },
+        {
+          "name": "hakBittiMetni",
+          "displayName": "Hak bitti metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Yeniden karıştırma hakkı tükendiğinde butonun yerinde görünen metin.",
+          "defaultValue": "Karıştırma hakkın bitti",
+          "groupId": "metinler"
+        },
+        {
+          "name": "tepsiTamamlandiMetni",
+          "displayName": "Tepsi tamamlandı metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Son parça da yerleştiğinde boşalan parça tepsisinde görünen kutlama metni.",
+          "defaultValue": "Tüm parçalar yerleşti",
+          "groupId": "metinler"
+        },
+        {
+          "name": "hediyeKutuModu",
+          "displayName": "Sürpriz kutu modu",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Hediyeleri kapalı kutu olarak gösterir. Kullanıcı yalnızca bir kutuyu açabilir, içindeki hediye açılınca görünür.",
+          "defaultValue": true,
+          "groupId": "hediye"
+        },
+        {
+          "name": "kutuKilitliMetni",
+          "displayName": "Kutu kilitlendi metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Sürpriz kutu modunda bir kutu açıldıktan sonra diğer kutuların üstünde görünen metin.",
+          "defaultValue": "Bu tur için bir kutu açtın",
+          "groupId": "metinler"
+        },
+        {
+          "name": "yenidenBaslaButonMetni",
+          "displayName": "Yeniden başla butonu",
+          "type": "TEXT",
+          "required": false,
+          "description": "Puzzle tamamlandıktan sonra yeniden oynamak için görünen ikincil butonun metni.",
+          "defaultValue": "Yeniden başla",
+          "groupId": "metinler"
+        },
+        {
+          "name": "hediyeKullanildiMetni",
+          "displayName": "Hediye kullanıldı metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Yeniden oynandığında, önceki turda seçilmiş hediyenin üzerinde görünen metin. O hediye tekrar seçilemez.",
+          "defaultValue": "Bu hediyeyi zaten aldın",
           "groupId": "metinler"
         }
       ],
@@ -836,18 +916,6 @@
         "Sepete ekle": "sepeteEkle",
         "Bağlantıya git": "baglantiyaGit",
         "Sadece işaretle": "isaretle"
-      },
-      "isDynamic": false
-    },
-    {
-      "id": "lJkqeARtD4",
-      "name": "PuzzleYaziTipi",
-      "type": "enum",
-      "enumOptions": {
-        "Tema fontu": "tema",
-        "Sistem (SF / Inter)": "sistem",
-        "Geometrik (Avenir)": "geometrik",
-        "Zarif serif": "serif"
       },
       "isDynamic": false
     }

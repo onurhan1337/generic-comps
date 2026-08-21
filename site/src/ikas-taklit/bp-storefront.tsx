@@ -26,19 +26,9 @@ export async function addItemToCart(..._args: any[]): Promise<void> {
  * Editörde bu, mağaza sahibinin sürüklediği bileşenleri basar. Vitrinde ise
  * `components` doğrudan Preact düğümleri olduğu için oldukları gibi render edilir.
  */
-export function IkasComponentRenderer({
-  components,
-  className,
-  style,
-}: {
-  components?: any[];
-  className?: string;
-  style?: any;
-  [k: string]: any;
-}) {
-  return (
-    <div className={className} style={style}>
-      {components ?? null}
-    </div>
-  );
+export function IkasComponentRenderer({ components }: { components?: any[]; [k: string]: any }) {
+  // Gerçek runtime bileşenleri kendi sarmalayıcısında basıyor ve dışarıdan
+  // verilen className'i uygulamıyor — taklit de aynı şekilde davranmalı ki
+  // vitrindeki yerleşim mağazadakinden farklı çıkmasın.
+  return <div>{components ?? null}</div>;
 }
