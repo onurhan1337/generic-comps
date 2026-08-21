@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>generic-comps — ikas Studio bileşen koleksiyonu</title>
+    <meta
+      name="description"
+      content="Her hafta ikas Studio ile kurulan bir kampanya mekaniği, vitrin bloğu veya dönüşüm denemesi. Kodu al, kendi ikas projene taşı."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="ust-bar">
+      <div class="kapsayici ust-bar-ic">
+        <a class="marka" href="./">
+          <span class="marka-isaret"><i></i><i></i><i></i><i></i></span>
+          generic-comps
+        </a>
+        <nav class="ust-bag">
+          <a href="#haftalar">Bileşenler</a>
+          <a href="#nasil">Nasıl kullanılır</a>
+          <a href="https://github.com/onurhan1337/generic-comps">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="kapsayici">
+          <span class="rozet">Her hafta bir bileşen</span>
+          <h1>ikas Studio ile kurulmuş, kopyalanmaya hazır bileşenler.</h1>
+          <p>
+            Her hafta gerçek bir senaryo kuruyoruz — bir kampanya mekaniği, bir vitrin bloğu, bir
+            dönüşüm denemesi. Çıkan kod burada duruyor: canlı demosuyla, prop tablosuyla ve kendi
+            projene taşıman için hazır bir AI prompt'uyla.
+          </p>
+          <div class="buton-grubu">
+            <a class="buton" href="#haftalar">Bileşenlere göz at</a>
+            <a class="buton ikincil" href="https://github.com/onurhan1337/generic-comps">
+              Depoyu aç
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="bolum" id="haftalar">
+        <div class="kapsayici">
+          <p class="bolum-basligi">Koleksiyon</p>
+          <h2>Bileşenler</h2>
+          <div class="hafta-listesi">
+            <a class="hafta-karti" href="./hafta-01/">
+              <div class="hafta-ust">
+                <span class="etiket">Hafta 01</span>
+                <span class="etiket">section</span>
+              </div>
+              <h3>Puzzle Kampanya</h3>
+              <p>
+                Sayfanın ortasında gerçek bir jigsaw puzzle. Ziyaretçi parçaları sürükleyip
+                tamamlıyor, ardından kupon ödülü ve opsiyonel hediye seçimi açılıyor.
+              </p>
+              <span class="hafta-ok">İncele →</span>
+            </a>
+
+            <div class="hafta-karti yakinda">
+              <div class="hafta-ust">
+                <span class="etiket">Hafta 02</span>
+                <span class="etiket">yakında</span>
+              </div>
+              <h3>Sırada ne var?</h3>
+              <p>
+                Bir sonraki bileşen hazırlanıyor. İstediğin bir mekanik varsa GitHub'da issue açarak
+                sıraya ekleyebilirsin.
+              </p>
+              <span class="hafta-ok">Yakında</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bolum" id="nasil">
+        <div class="kapsayici">
+          <p class="bolum-basligi">Kullanım</p>
+          <h2>Bir bileşeni kendi projene nasıl taşırsın?</h2>
+          <ol class="adimlar">
+            <li>
+              <strong>Bileşen sayfasını aç</strong>
+              <span>
+                Her bileşenin kendi sayfasında ne yaptığı, nerede kullanılacağı, canlı demosu ve tam
+                prop listesi var.
+              </span>
+            </li>
+            <li>
+              <strong>AI prompt'unu kopyala</strong>
+              <span>
+                Sayfanın sonundaki prompt'u kendi Claude Code / Cursor oturumuna yapıştır. Prompt
+                dosyaları, enum'ları, prop'ları ve doğrulama adımlarını içerir.
+              </span>
+            </li>
+            <li>
+              <strong>Doğrula</strong>
+              <span>
+                <code>npx ikas-component check --json</code> ve <code>npx ikas-component build</code>
+                temiz geçtiğinde bileşen editörde kullanıma hazırdır.
+              </span>
+            </li>
+          </ol>
+
+          <h3>Neden elle kopyalamak yerine CLI?</h3>
+          <p>
+            ikas projelerinde <code>ikas.config.json</code>, <code>types.ts</code>,
+            <code>global-types.ts</code> ve <code>src/components/index.ts</code> otomatik üretilir ve
+            bileşen id'leri projeye özeldir. Bu yüzden dosyaları kopyalamak yeterli değil — prop
+            tanımlarının CLI ile, senin projenin id'leriyle oluşturulması gerekiyor. Prompt bunu
+            sırasıyla yapar.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="alt-bilgi">
+      <div class="kapsayici">
+        MIT lisanslı — ticari projelerinde serbestçe kullanabilirsin.
+        <a href="https://github.com/onurhan1337/generic-comps">Kaynak kod</a>
+      </div>
+    </footer>
+
+    <script type="module" src="./src/anasayfa.ts"></script>
+  </body>
+</html>

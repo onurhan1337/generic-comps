@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Puzzle Kampanya — generic-comps</title>
+    <meta
+      name="description"
+      content="Ziyaretçinin sürükle-bırak ile tamamladığı gerçek bir jigsaw puzzle; tamamlanınca kupon ödülü ve opsiyonel hediye seçimi açılır. ikas Code Components bileşeni."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/generic-comps/assets/hafta01-Cb_6ZYDf.js"></script>
+    <link rel="modulepreload" crossorigin href="/generic-comps/assets/ortak-qpkI3cVZ.js">
+    <link rel="stylesheet" crossorigin href="/generic-comps/assets/ortak-DrfQihvD.css">
+    <link rel="stylesheet" crossorigin href="/generic-comps/assets/hafta01-C-U5L_T_.css">
+  </head>
+  <body>
+    <header class="ust-bar">
+      <div class="kapsayici ust-bar-ic">
+        <a class="marka" href="../">
+          <span class="marka-isaret"><i></i><i></i><i></i><i></i></span>
+          generic-comps
+        </a>
+        <nav class="ust-bag">
+          <a href="../#haftalar">Bileşenler</a>
+          <a href="#kurulum">Kurulum</a>
+          <a href="https://github.com/onurhan1337/generic-comps">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="kapsayici">
+        <p class="kirinti"><a href="../">Bileşenler</a> / Hafta 01</p>
+      </div>
+
+      <section class="detay-bas">
+        <div class="kapsayici">
+          <h1>Puzzle Kampanya</h1>
+          <p class="ozet">
+            Sayfanın ortasında gerçek bir jigsaw puzzle. Ziyaretçi dağınık parçaları sürükleyip
+            görseli tamamlıyor; tamamlandığında kupon ödülü açılıyor ve istersen ardından bir hediye
+            seçme adımı geliyor.
+          </p>
+          <div class="meta-satiri">
+            <span class="etiket">Hafta 01</span>
+            <span class="etiket">1 section + 1 component</span>
+            <span class="etiket">60 prop · 7 grup</span>
+            <span class="etiket">Preact · TypeScript</span>
+            <span class="etiket">Bağımlılık yok</span>
+            <span class="etiket">Mobil · tablet · masaüstü</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CANLI DEMO -->
+      <section class="bolum">
+        <div class="kapsayici">
+          <p class="bolum-basligi">Canlı demo</p>
+          <h2>Dene</h2>
+          <p>
+            Aşağıdaki demo, bileşenin <strong>kendisidir</strong> — mağazadaki ile aynı dosya,
+            aynı prop'lar. Üstteki ayarlar doğrudan prop'ları değiştirir: parça sayısı, tırtık
+            boyutu, zorluk toleransı, tepsi konumu, vurgu rengi, süre limiti ve hediye adımı.
+            "Ödülü göster" bileşenin kendi ilerleme kaydını doldurarak tamamlanmış durumu önizler.
+          </p>
+          <div class="demo-cerceve">
+            <div class="demo-ust">
+              <span>PuzzleKampanya · canlı</span>
+              <span class="ipucu">Parçaları sürükle ya da tıkla-seç, sonra yuvaya tıkla</span>
+            </div>
+            <div class="demo-govde"><div id="puzzle-demo"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NE GELİŞTİRİLDİ -->
+      <section class="bolum">
+        <div class="kapsayici">
+          <p class="bolum-basligi">Ne geliştirildi</p>
+          <h2>Parça parça</h2>
+
+          <h3>1. Gerçek puzzle geometrisi</h3>
+          <p>
+            Görsel satır × sütun hücreye bölünüyor, ama her parça hücresinden büyük bir kutuda
+            çiziliyor — böylece topuzlar (knob) komşu hücreye taşabiliyor. Her kenar üç kübik
+            bezier'den oluşan klasik bir jigsaw profili: hafif boyun girintisi, yuvarlak topuz,
+            tekrar boyun. Komşu parçalar zorunlu olarak birbirinin tersi oluyor, dış kenarlar düz
+            kalıyor.
+          </p>
+          <p>
+            Parça <code>clip-path</code> ile bu path'e kırpılıyor, gölge ise <em>kırpılmış</em>
+            içeriğin üzerine bir sarmalayıcıdan uygulanıyor — <code>drop-shadow</code> böylece kare
+            kutuyu değil, puzzle silüetini takip ediyor. Kartondan kesilmiş hissini veren şey bu.
+          </p>
+          <figure class="gorsel-yeri" id="ss-parca">
+            <div class="bos">[ekran görüntüsü: tek parçanın yakın planı — topuz, girinti ve silüeti takip eden gölge]</div>
+            <figcaption>Tek bir parçanın anatomisi.</figcaption>
+          </figure>
+
+          <h3>2. Sürükle-bırak, dokunmatik ve klavye</h3>
+          <p>
+            Etkileşim tek bir <code>pointer</code> olay yolundan geçiyor; fare, parmak ve kalem aynı
+            kodu kullanıyor. Sürükleme dışında iki alternatif var: parçaya dokun-seç sonra yuvaya
+            dokun, ve klavyeyle sekme yapıp Enter ile seçme. Parçanın oturması için gereken yakınlık
+            toleransı <code>zorlukSeviyesi</code> prop'undan geliyor.
+          </p>
+          <p>
+            Dokunmatikte üç ayrı ayar var: <code>touch-action: none</code> yalnızca parçalara
+            uygulanıyor — bölümün geri kalanında sayfa normal kayar, yani puzzle bir kaydırma tuzağına
+            dönüşmez. 5 pikselden küçük hareketler sürükleme değil dokunuş sayılıyor, böylece parmak
+            titremesi dokun-seç akışını bozmuyor. Ve tepsideki parçalar dar ekranlarda otomatik olarak
+            daha büyük bir oranda gösteriliyor, çünkü 0.6 ölçekli bir parça telefonda tutulamayacak
+            kadar küçük kalıyor.
+          </p>
+          <p>
+            Parça tepsideyken küçültülmüş, tutulduğunda tahtadaki gerçek boyutuna büyüyor. Tutma
+            noktası piksel değil oran olarak saklandığı için parça büyürken parmağın altından kaymıyor.
+          </p>
+
+          <h3>3. Deterministik karıştırma ve kaydedilen ilerleme</h3>
+          <p>
+            Parça biçimleri ve tepsideki dağınık konumlar <code>karistirmaAnahtari</code> prop'undan
+            türeyen bir tohumla üretiliyor. Aynı anahtar her zaman aynı puzzle'ı verir — bu hem
+            sunucu ve tarayıcı render'ının aynı çıkmasını (hydration uyuşmazlığı olmaması) sağlar,
+            hem de ziyaretçinin ilerlemesinin <code>localStorage</code>'da saklanıp sayfa
+            yenilendiğinde kaldığı yerden devam etmesini mümkün kılar.
+          </p>
+
+          <h3>4. Ödül şeridi</h3>
+          <p>
+            Tüm parçalar yerleşince ödül, ayrı bir kutu olarak değil <strong>aynı kartın içinde</strong>
+            ince bir ayraçla açılıyor: solda başlık ve tek satır açıklama, sağda kupon kodu ve CTA.
+            Tek satırlık kompakt bir şerit — tamamlanmış görselin dikkati dağılmıyor. Mobilde aynı
+            şerit sarmalanıp iki satıra iniyor.
+          </p>
+          <p>
+            Konfeti efekti kapatılabiliyor ve <code>prefers-reduced-motion</code> açık kullanıcılarda
+            otomatik devre dışı kalıyor. Parçalar yerleşince tepsi de kapanıyor, yani boş alan kalmıyor.
+          </p>
+          <figure class="gorsel-yeri" id="ss-odul">
+            <div class="bos">[ekran görüntüsü: tamamlanmış puzzle + açılan ödül paneli, konfetiyle]</div>
+            <figcaption>Puzzle tamamlandığında açılan ödül paneli.</figcaption>
+          </figure>
+
+          <h3>5. Slot tabanlı hediye seçimi</h3>
+          <p>
+            Ödülden sonra opsiyonel bir hediye adımı geliyor. Hediye kartları bir
+            <code>COMPONENT_LIST</code> slotu — mağaza sahibi editörden istediği kadar
+            <code>PuzzleHediyeKarti</code> sürükleyip ekleyebiliyor. Kart seçildiğinde ne olacağını
+            <code>hediyeSecimDavranisi</code> belirliyor: ürünü sepete ekle, bir bağlantıya git ya da
+            sadece işaretle.
+          </p>
+          <p>
+            Kartlar büyük görsel blokları değil, kompakt seçilebilir satırlar: solda küçük bir görsel,
+            ortada başlık ve tek satır açıklama, sağda seçim halkası. Kartın tamamı tıklanabilir —
+            parmakla kullanımda hedef alanı büyük. Seçim, kartlar ayrı paketlerde çalıştığı için
+            <code>window</code> üzerinden <code>CustomEvent</code> ile bölüme iletiliyor.
+          </p>
+          <figure class="gorsel-yeri" id="ss-hediye">
+            <div class="bos">[ekran görüntüsü: hediye seçimi adımı — üç hediye kartı, biri seçili]</div>
+            <figcaption>Hediye kartları editörden dinamik olarak eklenir.</figcaption>
+          </figure>
+
+          <h3>6. Oyunlaştırma katmanı</h3>
+          <p>
+            Üstteki etiket düz bir "KAMPANYA" yazısı değil, ikonlu bir rozet — ve içindeki puzzle
+            parçası, tahtadaki parçalarla <strong>aynı jigsaw üretecinden</strong> çiziliyor, ayrı bir
+            ikon dosyası yok.
+          </p>
+          <p>
+            İlerleme, 20 parçaya kadar tek tek kutucuk olarak gösteriliyor: kaç parçan kaldığını
+            saymadan görüyorsun, her yerleşen parça kendi kutucuğunu kademeli bir gecikmeyle
+            dolduruyor. Daha büyük puzzle'larda gösterge otomatik olarak sürekli çubuğa dönüyor.
+          </p>
+          <p>
+            Süre limiti açıkken kartın üst kenarında tükenen ince bir şerit var. Son çeyreğe
+            girildiğinde (ya da son 10 saniyede) hem şerit hem geri sayım rozeti uyarı rengine geçip
+            nabız gibi atmaya başlıyor — sayfanın ortasında bile fark ediliyor.
+          </p>
+
+          <h3>7. Başlangıç ekranı</h3>
+          <p>
+            Bölüm sayfanın ortasında tek başına durabildiği için başlangıç ekranı kendini
+            açıklamak zorunda. Örtü koyu bir perde değil, <strong>hafif bir cam katman</strong>:
+            altındaki görsel seçiliyor, ne olduğu anlaşılıyor. Butonun altında tek satırlık bir
+            oynanış ipucu, süre limiti açıksa da "başladığında ne kadar süren olacağı" ayrı bir
+            rozette yazıyor — kullanıcı geri sayımı başlatmadan önce görüyor.
+          </p>
+
+          <h3>8. Tasarım dili</h3>
+          <p>
+            Bölümün tamamı tek bir yüzeyde toplanıyor: durum çubuğu, tahta, tepsi, ödül ve hediye
+            adımı aynı kartın içinde, aralarında hairline ayraçlarla. Nötr gri zemin, beyaz kart,
+            çok katmanlı yumuşak gölge, geniş köşe yarıçapı ve tek vurgu rengi. İç yüzeylerin köşe
+            yarıçapı dış karttan bir tık daha keskin, böylece iç içe yuvarlatma doğru okunuyor.
+          </p>
+          <p>
+            Butonlar düz renk değil: üstte ışık, altta gölge, kenarda iç çizgi ve vurgu renginden
+            yayılan yumuşak bir hâle. Bu katmanlar seçilen renge göre türetildiği için palet
+            değiştiğinde efekt bozulmuyor. Yazı tipi de prop — tema fontu, sistem (SF/Inter),
+            geometrik (Avenir) ya da zarif serif arasından seçilebiliyor. Tüm renkler ve font
+            mağazanın kendi kimliğine uyarlanabilir.
+          </p>
+
+          <h3>9. Editör deneyimi</h3>
+
+          <h3>7. Editör deneyimi</h3>
+          <p>
+            Tüm prop'lar Türkçe adlandırıldı, her birinin açıklaması var ve yedi gruba ayrıldı:
+            İçerik, Puzzle Ayarları, Oyun Kuralları, Ödül, Hediye Seçimi, Metinler, Görünüm. Ekranda
+            görünen hiçbir metin koda gömülü değil — hepsi varsayılan değeri olan birer prop, yani
+            çok dilli mağazalarda çevrilebilir.
+          </p>
+          <figure class="gorsel-yeri" id="ss-editor">
+            <div class="bos">[ekran görüntüsü: ikas editöründe sağ panel — gruplanmış prop listesi]</div>
+            <figcaption>ikas editöründe prop grupları.</figcaption>
+          </figure>
+
+          <figure class="gorsel-yeri" id="ss-mobil">
+            <div class="bos">[ekran görüntüsü: mobil ve tablet görünüm yan yana]</div>
+            <figcaption>Mobil ve tablet yerleşimi.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- NEREDE KULLANILIR -->
+      <section class="bolum">
+        <div class="kapsayici">
+          <p class="bolum-basligi">Nerede kullanılır</p>
+          <h2>Uygun senaryolar</h2>
+          <ol class="adimlar">
+            <li>
+              <strong>Sezon kampanyası açılış sayfası</strong>
+              <span>
+                Black Friday, yılbaşı, doğum günü gibi kampanyalarda indirim kodunu doğrudan vermek
+                yerine küçük bir oyunun arkasına koymak, sayfada kalma süresini ve kodun hatırlanma
+                oranını artırır.
+              </span>
+            </li>
+            <li>
+              <strong>Yeni koleksiyon duyurusu</strong>
+              <span>
+                Puzzle görseli olarak yeni ürünün fotoğrafını koy — ziyaretçi ürünü parça parça
+                ortaya çıkarır. Tamamlandığında koleksiyon sayfasına yönlendir.
+              </span>
+            </li>
+            <li>
+              <strong>Hediye seçtiren kampanya</strong>
+              <span>
+                "500 TL üzeri alışverişte hediyeni sen seç" mekaniği. Hediye adımını aç, kartları
+                ürünlere bağla, seçim davranışını "sepete ekle" yap.
+              </span>
+            </li>
+            <li>
+              <strong>E-posta / sosyal medya iniş sayfası</strong>
+              <span>
+                Kampanya linkinin gittiği sayfada tek başına bir bölüm olarak durur. Süre limitini
+                açarak aciliyet hissi ekleyebilirsin.
+              </span>
+            </li>
+          </ol>
+
+          <h3>Ne zaman kullanma</h3>
+          <p>
+            Ürün detay veya sepet gibi satın alma akışının ortasındaki sayfalarda kullanma — oyun,
+            dönüşüme giden yolu böler. Ayrıca çok küçük ekranlarda 4×4'ten fazla parça kullanma;
+            parçalar tıklanamayacak kadar küçülür.
+          </p>
+        </div>
+      </section>
+
+      <!-- PROP TABLOSU -->
+      <section class="bolum">
+        <div class="kapsayici">
+          <p class="bolum-basligi">Referans</p>
+          <h2>PuzzleKampanya prop'ları</h2>
+          <p>
+            Aşağıdaki tablo <code>ikas.config.json</code> dosyasından üretiliyor, yani her zaman
+            koddaki gerçek tanımla aynıdır.
+          </p>
+          <div id="prop-tablosu-kampanya"></div>
+
+          <h3>PuzzleHediyeKarti prop'ları</h3>
+          <div id="prop-tablosu-kart"></div>
+        </div>
+      </section>
+
+      <!-- KURULUM -->
+      <section class="bolum" id="kurulum">
+        <div class="kapsayici">
+          <p class="bolum-basligi">Kurulum</p>
+          <h2>Kendi projene çek</h2>
+          <p>
+            En hızlı yol: aşağıdaki prompt'u kopyalayıp kendi ikas projenin kök dizininde açtığın
+            Claude Code (veya Cursor) oturumuna yapıştır. Prompt dosya kopyalamayı, enum ve prop
+            oluşturmayı ve doğrulamayı sırasıyla yapar.
+          </p>
+
+          <div class="kod-blogu">
+            <div class="kod-bas">
+              <span>AI prompt</span>
+              <button class="kopyala" data-kopyala="#ai-prompt" type="button">Kopyala</button>
+            </div>
+            <pre id="ai-prompt">ikas Code Components projeme "Puzzle Kampanya" bölümünü kurmanı istiyorum.
+
+Kaynak depo: https://github.com/onurhan1337/generic-comps
+
+ADIM 1 — Dosyaları getir
+Depodan şu dosyaları projeme aynı yollara kopyala:
+  src/lib/puzzle.ts
+  src/lib/hediye-secim.ts
+  src/sub-components/PuzzleTahtasi/{index.tsx,styles.css}
+  src/sub-components/OdulPaneli/{index.tsx,styles.css}
+  src/sub-components/HediyeSecimi/{index.tsx,styles.css}
+  src/sub-components/Konfeti/{index.tsx,styles.css}
+  src/components/PuzzleKampanya/{index.tsx,styles.css}
+  src/components/PuzzleHediyeKarti/{index.tsx,styles.css}
+NOT: types.ts dosyalarını KOPYALAMA — onları CLI üretecek.
+
+ADIM 2 — Enum'ları oluştur (prop'lardan ÖNCE)
+Dönen enumId'leri not al, 4. adımda kullanacaksın:
+  npx ikas-component config add-enum --name "PuzzleZorluk" --options '{"Kolay":"kolay","Orta":"orta","Zor":"zor"}'
+  npx ikas-component config add-enum --name "PuzzleTepsiKonumu" --options '{"Altta":"alt","Sağda":"sag","Solda":"sol"}'
+  npx ikas-component config add-enum --name "PuzzleYanlisParcaDavranisi" --options '{"Tepsiye geri dönsün":"geriDon","Bırakıldığı yerde kalsın":"kal"}'
+  npx ikas-component config add-enum --name "PuzzleHediyeSecimDavranisi" --options '{"Sepete ekle":"sepeteEkle","Bağlantıya git":"baglantiyaGit","Sadece işaretle":"isaretle"}'
+
+ADIM 3 — Bileşenleri oluştur (önce kart, çünkü id'si lazım)
+  npx ikas-component config add-component --name "PuzzleHediyeKarti" --type component
+  npx ikas-component config add-component --name "PuzzleKampanya" --type section
+Dönen componentId'leri not al.
+
+ADIM 4 — Prop gruplarını ve prop'ları CLI ile ekle
+Depodaki ikas.config.json'da bu iki bileşenin tam tanımı var. Onu referans alarak
+her propGroup'u `config add-prop-group`, her prop'u `config add-prop` ile birebir oluştur:
+  - displayName, description, defaultValue, groupId, required alanlarını aynen aktar
+  - ENUM prop'larında 2. adımdaki enumId'leri kullan
+  - NUMBER_RANGE prop'larında --numberRangeData'yı aynen ver
+  - hediyeKartlari prop'unda --filteredComponentIds olarak PuzzleHediyeKarti'nin id'sini ver
+Türkçe karakterli argümanları kabuk üzerinden geçirirken bozulmamasına dikkat et.
+
+ADIM 5 — Kritik kurallar
+  - ikas.config.json, types.ts, global-types.ts ve src/components/index.ts dosyalarını ELLE düzenleme.
+  - Alt bileşen CSS'lerini .tsx içinde import ETME; PuzzleKampanya/styles.css'in en üstündeki
+    @import satırlarıyla dahil et (build .tsx içinden CSS importunu reddediyor).
+  - Kök bileşenleri observer() ile sarma; sadece alt bileşenler observer kullanır.
+
+ADIM 6 — Doğrula
+  npx ikas-component check --json
+  npx ikas-component build
+İkisi de temiz geçmeden bitirme; hata varsa düzelt.
+
+Kurulum bitince editörde bölümü sayfaya ekleyip "Puzzle Görseli" prop'una bir görsel
+seçmem gerektiğini hatırlat.</pre>
+          </div>
+
+          <h3>Elle kurmak istersen</h3>
+          <p>
+            Dosyaları kopyaladıktan sonra prop tanımlarını CLI ile oluşturman gerekiyor —
+            <code>ikas.config.json</code> ve <code>types.ts</code> otomatik üretilen dosyalar,
+            elle düzenlenmemeli. Bileşen id'leri projene özel olduğu için depodaki id'ler kendi
+            projende çalışmaz.
+          </p>
+
+          <div class="kod-blogu">
+            <div class="kod-bas">
+              <span>Doğrulama</span>
+              <button class="kopyala" data-kopyala="#dogrulama" type="button">Kopyala</button>
+            </div>
+            <pre id="dogrulama">npx ikas-component check --json   # tip kontrolü
+npx ikas-component build          # server.js + client.js + styles.css üretir
+npx ikas-component dev            # editöre bağlan, bölümü sayfaya ekle</pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="alt-bilgi">
+      <div class="kapsayici">
+        MIT lisanslı — ticari projelerinde serbestçe kullanabilirsin.
+        <a href="https://github.com/onurhan1337/generic-comps">Kaynak kod</a>
+      </div>
+    </footer>
+
+  </body>
+</html>

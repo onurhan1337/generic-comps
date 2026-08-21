@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b2a4a"/>
+      <stop offset="55%" stop-color="#2f5d7c"/>
+      <stop offset="100%" stop-color="#7fb3a6"/>
+    </linearGradient>
+    <radialGradient id="g2" cx="0.75" cy="0.25" r="0.7">
+      <stop offset="0%" stop-color="#ffd36e" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ffd36e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#g1)"/>
+  <rect width="1200" height="900" fill="url(#g2)"/>
+  <circle cx="900" cy="230" r="130" fill="#ffd36e" opacity="0.9"/>
+  <path d="M0 640 C 220 540, 380 720, 600 640 S 980 540, 1200 620 L1200 900 L0 900 Z" fill="#0f1d33" opacity="0.55"/>
+  <path d="M0 730 C 260 660, 420 810, 680 740 S 1000 660, 1200 730 L1200 900 L0 900 Z" fill="#0b1626" opacity="0.75"/>
+  <g fill="#ffffff" opacity="0.9">
+    <circle cx="180" cy="160" r="4"/><circle cx="320" cy="110" r="3"/><circle cx="430" cy="210" r="3.5"/>
+    <circle cx="240" cy="300" r="2.5"/><circle cx="620" cy="140" r="3"/><circle cx="120" cy="420" r="3"/>
+  </g>
+  <text x="600" y="470" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700"
+        fill="#ffffff" text-anchor="middle" letter-spacing="-2">KAMPANYA</text>
+  <text x="600" y="530" font-family="Inter,Helvetica,Arial,sans-serif" font-size="28" font-weight="500"
+        fill="#ffffff" opacity="0.8" text-anchor="middle" letter-spacing="6">PUZZLE &#183; ÖDÜL &#183; HEDİYE</text>
+</svg>
