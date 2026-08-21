@@ -5,91 +5,851 @@
   "globalStyles": "./src/global.css",
   "components": [
     {
-      "id": "kcy86ma7-uZ2sezUGKc",
-      "name": "Example Component",
-      "entry": "./src/components/ExampleComponent/index.tsx",
-      "styles": "./src/components/ExampleComponent/styles.css",
+      "id": "kcy86ma7-a0oxDLXCw1",
+      "name": "PuzzleHediyeKarti",
+      "entry": "./src/components/PuzzleHediyeKarti/index.tsx",
+      "styles": "./src/components/PuzzleHediyeKarti/styles.css",
       "props": [
         {
-          "name": "title",
-          "displayName": "Title",
+          "name": "hediyeGorseli",
+          "displayName": "Hediye Görseli",
+          "type": "IMAGE",
+          "required": false,
+          "description": "Kartın üstünde gösterilecek hediye görseli.",
+          "groupId": "icerik"
+        },
+        {
+          "name": "hediyeBasligi",
+          "displayName": "Hediye Başlığı",
           "type": "TEXT",
           "required": true,
-          "defaultValue": "Hello World",
-          "description": "The main title text"
+          "description": "Kartın ana başlığı. Hediyenin adı.",
+          "defaultValue": "Sürpriz Hediye",
+          "groupId": "icerik"
         },
         {
-          "name": "description",
-          "displayName": "Description",
+          "name": "hediyeAciklamasi",
+          "displayName": "Hediye Açıklaması",
           "type": "TEXT",
           "required": false,
-          "defaultValue": "This is an example ikas code component built with Preact.",
-          "description": "The description text below the title"
+          "description": "Başlığın altındaki kısa açıklama satırı.",
+          "defaultValue": "Seçtiğin hediye siparişine eklenir.",
+          "groupId": "icerik"
         },
         {
-          "name": "showButton",
-          "displayName": "Show Button",
-          "type": "BOOLEAN",
-          "required": false,
-          "defaultValue": true,
-          "description": "Whether to show the action button"
-        },
-        {
-          "name": "buttonText",
-          "displayName": "Button Text",
+          "name": "rozetMetni",
+          "displayName": "Rozet Metni",
           "type": "TEXT",
           "required": false,
-          "defaultValue": "Click Me",
-          "description": "The text displayed on the button"
-        }
-      ]
-    },
-    {
-      "id": "kcy86ma7-8ySaQdg4pR",
-      "name": "Example Section",
-      "entry": "./src/components/ExampleSection/index.tsx",
-      "styles": "./src/components/ExampleSection/styles.css",
-      "type": "section",
-      "props": [
-        {
-          "name": "heading",
-          "displayName": "Heading",
-          "type": "TEXT",
-          "required": true,
-          "defaultValue": "Welcome to Our Store",
-          "description": "The section heading text",
-          "groupId": "content"
+          "description": "Kartın köşesinde görünen küçük etiket. Boş bırakırsan rozet gösterilmez.",
+          "defaultValue": "Hediye",
+          "groupId": "icerik"
         },
         {
-          "name": "subtitle",
-          "displayName": "Subtitle",
+          "name": "hediyeUrunu",
+          "displayName": "Hediye Ürünü",
+          "type": "PRODUCT",
+          "required": false,
+          "description": "Kampanyada seçim davranışı 'Sepete ekle' ise bu ürün sepete eklenir.",
+          "groupId": "aksiyon"
+        },
+        {
+          "name": "hediyeBaglantisi",
+          "displayName": "Hediye Bağlantısı",
+          "type": "LINK",
+          "required": false,
+          "description": "Kampanyada seçim davranışı 'Bağlantıya git' ise bu adrese yönlendirilir.",
+          "groupId": "aksiyon"
+        },
+        {
+          "name": "secimButonMetni",
+          "displayName": "Seçim Butonu Metni",
           "type": "TEXT",
           "required": false,
-          "defaultValue": "Discover our latest products and collections.",
-          "description": "The subtitle text below the heading",
-          "groupId": "content"
+          "description": "Hediye henüz seçilmemişken butonda yazan metin.",
+          "defaultValue": "Bu hediyeyi seç",
+          "groupId": "aksiyon"
         },
         {
-          "name": "backgroundColor",
-          "displayName": "Background Color",
+          "name": "secildiButonMetni",
+          "displayName": "Seçildi Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Hediye seçildikten sonra butonda yazan metin.",
+          "defaultValue": "Seçildi",
+          "groupId": "aksiyon"
+        },
+        {
+          "name": "kartArkaPlanRengi",
+          "displayName": "Kart Arka Plan Rengi",
           "type": "COLOR",
           "required": false,
-          "description": "The section background color",
-          "groupId": "appearance"
+          "description": "Kartın zemin rengi.",
+          "defaultValue": "#ffffff",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "metinRengi",
+          "displayName": "Metin Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Başlık ve açıklama metinlerinin rengi.",
+          "defaultValue": "#1d1d1f",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "vurguRengi",
+          "displayName": "Vurgu Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Kart seçildiğinde çerçevenin ve butonun aldığı renk.",
+          "defaultValue": "#1d1d1f",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "koseYuvarlakligi",
+          "displayName": "Köşe Yuvarlaklığı",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Kart köşelerinin yuvarlaklık miktarı.",
+          "defaultValue": {
+            "value": 14,
+            "unit": "px"
+          },
+          "groupId": "gorunum",
+          "numberRangeData": {
+            "min": 0,
+            "max": 40,
+            "interval": 2,
+            "unit": "px"
+          }
         }
       ],
       "propGroups": [
         {
-          "id": "content",
-          "name": "Content",
-          "description": "Text and copy settings"
+          "id": "icerik",
+          "name": "İçerik",
+          "description": "Kartta görünen görsel ve metinler"
         },
         {
-          "id": "appearance",
-          "name": "Appearance",
-          "description": "Colors and visual style"
+          "id": "aksiyon",
+          "name": "Aksiyon",
+          "description": "Hediye seçildiğinde ne olacağı"
+        },
+        {
+          "id": "gorunum",
+          "name": "Görünüm",
+          "description": "Kartın renkleri ve biçimi"
         }
       ]
+    },
+    {
+      "id": "kcy86ma7-9H7QHFtYiK",
+      "name": "PuzzleKampanya",
+      "entry": "./src/components/PuzzleKampanya/index.tsx",
+      "styles": "./src/components/PuzzleKampanya/styles.css",
+      "type": "section",
+      "props": [
+        {
+          "name": "ustEtiket",
+          "displayName": "Üst Etiket",
+          "type": "TEXT",
+          "required": false,
+          "description": "Başlığın üstünde görünen küçük etiket. Boş bırakırsan gösterilmez.",
+          "defaultValue": "Mini oyun",
+          "groupId": "icerik"
+        },
+        {
+          "name": "baslik",
+          "displayName": "Başlık",
+          "type": "TEXT",
+          "required": true,
+          "description": "Kampanyanın ana başlığı.",
+          "defaultValue": "Puzzle'ı tamamla, hediyeni kap",
+          "groupId": "icerik"
+        },
+        {
+          "name": "aciklama",
+          "displayName": "Açıklama",
+          "type": "RICH_TEXT",
+          "required": false,
+          "description": "Başlığın altındaki açıklama metni.",
+          "defaultValue": "<p>Parçaları doğru yerlerine sürükle. Görseli tamamladığında ödülün açılacak.</p>",
+          "groupId": "icerik"
+        },
+        {
+          "name": "puzzleGorseli",
+          "displayName": "Puzzle Görseli",
+          "type": "IMAGE",
+          "required": false,
+          "description": "Puzzle'a dönüştürülecek görsel. Kare veya 4:3 yatay görseller en iyi sonucu verir.",
+          "groupId": "puzzle"
+        },
+        {
+          "name": "satirSayisi",
+          "displayName": "Satır Sayısı",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Puzzle'ın kaç satıra bölüneceği. Satır × sütun toplam parça sayısını verir.",
+          "defaultValue": {
+            "value": 3,
+            "unit": null
+          },
+          "groupId": "puzzle",
+          "numberRangeData": {
+            "min": 2,
+            "max": 6,
+            "interval": 1
+          }
+        },
+        {
+          "name": "sutunSayisi",
+          "displayName": "Sütun Sayısı",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Puzzle'ın kaç sütuna bölüneceği.",
+          "defaultValue": {
+            "value": 3,
+            "unit": null
+          },
+          "groupId": "puzzle",
+          "numberRangeData": {
+            "min": 2,
+            "max": 6,
+            "interval": 1
+          }
+        },
+        {
+          "name": "tirtikBoyutu",
+          "displayName": "Tırtık Boyutu",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Parça kenarlarındaki çıkıntı ve girintilerin büyüklüğü. 0 = düz kare parçalar, yüksek değer = belirgin puzzle tırtığı.",
+          "defaultValue": {
+            "value": 24,
+            "unit": "%"
+          },
+          "groupId": "puzzle",
+          "numberRangeData": {
+            "min": 0,
+            "max": 40,
+            "interval": 2,
+            "unit": "%"
+          }
+        },
+        {
+          "name": "zorlukSeviyesi",
+          "displayName": "Zorluk Seviyesi",
+          "type": "ENUM",
+          "required": false,
+          "description": "Parçanın yuvasına oturması için gereken yakınlık toleransını belirler. Kolay = geniş tolerans.",
+          "defaultValue": "kolay",
+          "groupId": "puzzle",
+          "enumTypeId": "kU7p9BBTRx"
+        },
+        {
+          "name": "tepsiKonumu",
+          "displayName": "Parça Tepsisi Konumu",
+          "type": "ENUM",
+          "required": false,
+          "description": "Dağınık parçaların durduğu tepsinin tahtaya göre konumu. Mobilde her zaman altta gösterilir.",
+          "defaultValue": "alt",
+          "groupId": "puzzle",
+          "enumTypeId": "5jMcww9BBj"
+        },
+        {
+          "name": "rehberGorseliGoster",
+          "displayName": "Rehber Görselini Göster",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Tahtanın arkasında görselin soluk bir kopyasını gösterir. Kapatırsan puzzle zorlaşır.",
+          "defaultValue": true,
+          "groupId": "puzzle"
+        },
+        {
+          "name": "yanlisParcaDavranisi",
+          "displayName": "Yanlış Parça Davranışı",
+          "type": "ENUM",
+          "required": false,
+          "description": "Kullanıcı bir parçayı yanlış yere bıraktığında ne olacağı.",
+          "defaultValue": "geriDon",
+          "groupId": "puzzle",
+          "enumTypeId": "y6mbEONLkf"
+        },
+        {
+          "name": "karistirmaAnahtari",
+          "displayName": "Karıştırma Anahtarı",
+          "type": "TEXT",
+          "required": false,
+          "description": "Parça dizilimi ve kaydedilen ilerleme bu anahtara göre üretilir. Değiştirdiğinde tüm ziyaretçilerin ilerlemesi sıfırlanır.",
+          "defaultValue": "kampanya-1",
+          "groupId": "puzzle"
+        },
+        {
+          "name": "sureLimitiAktif",
+          "displayName": "Süre Limiti",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Açarsan kullanıcı puzzle'ı belirlenen sürede bitirmek zorunda kalır.",
+          "defaultValue": false,
+          "groupId": "kurallar"
+        },
+        {
+          "name": "sureSaniye",
+          "displayName": "Süre (saniye)",
+          "type": "NUMBER",
+          "required": false,
+          "description": "Süre limiti açıksa kullanıcıya tanınan toplam saniye.",
+          "defaultValue": 120,
+          "groupId": "kurallar"
+        },
+        {
+          "name": "hamleSayaciniGoster",
+          "displayName": "Hamle Sayacını Göster",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Kullanıcının yaptığı yerleştirme denemesi sayısını gösterir.",
+          "defaultValue": true,
+          "groupId": "kurallar"
+        },
+        {
+          "name": "ilerlemeyiHatirla",
+          "displayName": "İlerlemeyi Hatırla",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Kullanıcının ilerlemesi kendi tarayıcısında saklanır; sayfayı yenilediğinde kaldığı yerden devam eder.",
+          "defaultValue": true,
+          "groupId": "kurallar"
+        },
+        {
+          "name": "tekrarOynanabilir",
+          "displayName": "Tekrar Oynanabilir",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Puzzle tamamlandıktan sonra kullanıcının yeniden oynayabilmesine izin verir.",
+          "defaultValue": true,
+          "groupId": "kurallar"
+        },
+        {
+          "name": "odulBasligi",
+          "displayName": "Ödül Başlığı",
+          "type": "TEXT",
+          "required": false,
+          "description": "Puzzle tamamlandığında açılan panelin başlığı.",
+          "defaultValue": "Tebrikler, kazandın!",
+          "groupId": "odul"
+        },
+        {
+          "name": "odulAciklamasi",
+          "displayName": "Ödül Açıklaması",
+          "type": "RICH_TEXT",
+          "required": false,
+          "description": "Ödül panelindeki açıklama metni.",
+          "defaultValue": "<p>Aşağıdaki kodu sepetinde kullanarak indirimini alabilirsin.</p>",
+          "groupId": "odul"
+        },
+        {
+          "name": "odulGorseli",
+          "displayName": "Ödül Görseli",
+          "type": "IMAGE",
+          "required": false,
+          "description": "Ödül panelinde gösterilecek görsel. Boş bırakırsan sadece metin gösterilir.",
+          "groupId": "odul"
+        },
+        {
+          "name": "kuponKodunuGoster",
+          "displayName": "Kupon Kodunu Göster",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Ödül panelinde kopyalanabilir kupon kodu alanını gösterir.",
+          "defaultValue": true,
+          "groupId": "odul"
+        },
+        {
+          "name": "kuponKodu",
+          "displayName": "Kupon Kodu",
+          "type": "TEXT",
+          "required": false,
+          "description": "Kullanıcının kazandığı indirim kodu.",
+          "defaultValue": "PUZZLE20",
+          "groupId": "odul"
+        },
+        {
+          "name": "kopyalaButonMetni",
+          "displayName": "Kopyala Butonu Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Kupon kodunun yanındaki kopyalama butonunun metni.",
+          "defaultValue": "Kodu kopyala",
+          "groupId": "odul"
+        },
+        {
+          "name": "kopyalandiMetni",
+          "displayName": "Kopyalandı Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Kod kopyalandıktan sonra kısa süre gösterilen metin.",
+          "defaultValue": "Kopyalandı!",
+          "groupId": "odul"
+        },
+        {
+          "name": "odulBaglantisi",
+          "displayName": "Ödül Bağlantısı",
+          "type": "LINK",
+          "required": false,
+          "description": "Ödül panelindeki butonun gideceği adres. Genelde kampanya kategorisi.",
+          "groupId": "odul"
+        },
+        {
+          "name": "odulButonMetni",
+          "displayName": "Ödül Butonu Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Ödül panelindeki ana butonun metni.",
+          "defaultValue": "Alışverişe başla",
+          "groupId": "odul"
+        },
+        {
+          "name": "konfetiEfekti",
+          "displayName": "Konfeti Efekti",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Puzzle tamamlandığında kısa bir konfeti animasyonu oynatır.",
+          "defaultValue": true,
+          "groupId": "odul"
+        },
+        {
+          "name": "hediyeAdimiAktif",
+          "displayName": "Hediye Adımı",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Açarsan ödül panelinden sonra kullanıcı bir hediye seçebilir.",
+          "defaultValue": false,
+          "groupId": "hediye"
+        },
+        {
+          "name": "hediyeBasligi",
+          "displayName": "Hediye Adımı Başlığı",
+          "type": "TEXT",
+          "required": false,
+          "description": "Hediye seçme adımının başlığı.",
+          "defaultValue": "Hediyeni seç",
+          "groupId": "hediye"
+        },
+        {
+          "name": "hediyeAciklamasi",
+          "displayName": "Hediye Adımı Açıklaması",
+          "type": "TEXT",
+          "required": false,
+          "description": "Hediye kartlarının üstündeki açıklama satırı.",
+          "defaultValue": "Aşağıdaki hediyelerden birini seçebilirsin.",
+          "groupId": "hediye"
+        },
+        {
+          "name": "hediyeKartlari",
+          "displayName": "Hediye Kartları",
+          "type": "COMPONENT_LIST",
+          "required": false,
+          "description": "Kullanıcıya sunulacak hediye kartları. Editörden istediğin kadar 'PuzzleHediyeKarti' ekleyebilirsin.",
+          "groupId": "hediye",
+          "filteredComponentIds": [
+            "kcy86ma7-a0oxDLXCw1"
+          ]
+        },
+        {
+          "name": "hediyeSecimDavranisi",
+          "displayName": "Hediye Seçim Davranışı",
+          "type": "ENUM",
+          "required": false,
+          "description": "Kullanıcı bir hediye seçtiğinde ne olacağı.",
+          "defaultValue": "sepeteEkle",
+          "groupId": "hediye",
+          "enumTypeId": "r0lqZfId4S"
+        },
+        {
+          "name": "hediyeOnayMetni",
+          "displayName": "Hediye Onay Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Hediye seçildikten sonra gösterilen onay mesajı.",
+          "defaultValue": "Hediyen seçildi.",
+          "groupId": "hediye"
+        },
+        {
+          "name": "baslaButonMetni",
+          "displayName": "Başla Butonu Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Puzzle başlamadan önce gösterilen butonun metni.",
+          "defaultValue": "Puzzle'ı başlat",
+          "groupId": "metinler"
+        },
+        {
+          "name": "sifirlaButonMetni",
+          "displayName": "Sıfırla Butonu Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Puzzle'ı yeniden karıştıran butonun metni.",
+          "defaultValue": "Yeniden karıştır",
+          "groupId": "metinler"
+        },
+        {
+          "name": "ilerlemeMetni",
+          "displayName": "İlerleme Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Tamamlanan parça sayısını gösterir. {tamamlanan} ve {toplam} yerine gerçek sayılar yazılır.",
+          "defaultValue": "{tamamlanan} / {toplam} parça",
+          "groupId": "metinler"
+        },
+        {
+          "name": "kalanSureMetni",
+          "displayName": "Kalan Süre Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Süre limiti açıkken gösterilir. {sure} yerine kalan süre yazılır.",
+          "defaultValue": "{sure}",
+          "groupId": "metinler"
+        },
+        {
+          "name": "hamleMetni",
+          "displayName": "Hamle Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Hamle sayacı metni. {hamle} yerine hamle sayısı yazılır.",
+          "defaultValue": "{hamle} hamle",
+          "groupId": "metinler"
+        },
+        {
+          "name": "sureDolduBasligi",
+          "displayName": "Süre Doldu Başlığı",
+          "type": "TEXT",
+          "required": false,
+          "description": "Süre bittiğinde gösterilen panelin başlığı.",
+          "defaultValue": "Süre doldu",
+          "groupId": "metinler"
+        },
+        {
+          "name": "sureDolduAciklamasi",
+          "displayName": "Süre Doldu Açıklaması",
+          "type": "TEXT",
+          "required": false,
+          "description": "Süre bittiğinde gösterilen açıklama.",
+          "defaultValue": "Merak etme, tekrar deneyebilirsin.",
+          "groupId": "metinler"
+        },
+        {
+          "name": "tekrarDeneButonMetni",
+          "displayName": "Tekrar Dene Butonu Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Süre dolduğunda gösterilen butonun metni.",
+          "defaultValue": "Tekrar dene",
+          "groupId": "metinler"
+        },
+        {
+          "name": "gorselYokMetni",
+          "displayName": "Görsel Yok Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Puzzle görseli seçilmediğinde editörde gösterilen uyarı.",
+          "defaultValue": "Puzzle görseli seçilmedi.",
+          "groupId": "metinler"
+        },
+        {
+          "name": "parcaAlEtiketi",
+          "displayName": "Parça Erişilebilirlik Etiketi",
+          "type": "TEXT",
+          "required": false,
+          "description": "Ekran okuyucuların parçayı okurken kullandığı metin. {no} yerine parça numarası yazılır.",
+          "defaultValue": "Puzzle parçası {no}",
+          "groupId": "metinler"
+        },
+        {
+          "name": "slotEtiketi",
+          "displayName": "Yuva Erişilebilirlik Etiketi",
+          "type": "TEXT",
+          "required": false,
+          "description": "Ekran okuyucuların boş yuvayı okurken kullandığı metin. {no} yerine yuva numarası yazılır.",
+          "defaultValue": "{no}. parça yuvası",
+          "groupId": "metinler"
+        },
+        {
+          "name": "arkaPlanRengi",
+          "displayName": "Arka Plan Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Bölümün zemin rengi.",
+          "defaultValue": "#f5f5f7",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "metinRengi",
+          "displayName": "Metin Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Başlık ve açıklama metinlerinin rengi.",
+          "defaultValue": "#1d1d1f",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "vurguRengi",
+          "displayName": "Vurgu Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Butonların ve aktif durumların rengi.",
+          "defaultValue": "#1d1d1f",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "vurguMetinRengi",
+          "displayName": "Vurgu Metin Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Vurgu renkli butonların üzerindeki yazı rengi.",
+          "defaultValue": "#ffffff",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "tahtaArkaPlanRengi",
+          "displayName": "Tahta Arka Plan Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Puzzle tahtasının ve parça tepsisinin zemin rengi.",
+          "defaultValue": "#ffffff",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "parcaKenarRengi",
+          "displayName": "Parça Kenar Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Puzzle parçalarının ince kenar çizgisi rengi.",
+          "defaultValue": "#ffffff",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "golgeYogunlugu",
+          "displayName": "Gölge Yoğunluğu",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Parçaların gölge koyuluğu. Yükseldikçe parçalar tahtadan daha çok ayrışır.",
+          "defaultValue": {
+            "value": 30,
+            "unit": "%"
+          },
+          "groupId": "gorunum",
+          "numberRangeData": {
+            "min": 0,
+            "max": 100,
+            "interval": 5,
+            "unit": "%"
+          }
+        },
+        {
+          "name": "koseYuvarlakligi",
+          "displayName": "Köşe Yuvarlaklığı",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Tahta, tepsi ve panellerin köşe yuvarlaklığı.",
+          "defaultValue": {
+            "value": 24,
+            "unit": "px"
+          },
+          "groupId": "gorunum",
+          "numberRangeData": {
+            "min": 0,
+            "max": 48,
+            "interval": 2,
+            "unit": "px"
+          }
+        },
+        {
+          "name": "maksimumGenislik",
+          "displayName": "Maksimum Genişlik",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Bölüm içeriğinin en fazla ne kadar genişleyeceği.",
+          "defaultValue": {
+            "value": 1120,
+            "unit": "px"
+          },
+          "groupId": "gorunum",
+          "numberRangeData": {
+            "min": 480,
+            "max": 1440,
+            "interval": 20,
+            "unit": "px"
+          }
+        },
+        {
+          "name": "dikeyBosluk",
+          "displayName": "Dikey Boşluk",
+          "type": "NUMBER_RANGE",
+          "required": false,
+          "description": "Bölümün üst ve alt iç boşluğu.",
+          "defaultValue": {
+            "value": 80,
+            "unit": "px"
+          },
+          "groupId": "gorunum",
+          "numberRangeData": {
+            "min": 0,
+            "max": 160,
+            "interval": 4,
+            "unit": "px"
+          }
+        },
+        {
+          "name": "hediyeBosMetni",
+          "displayName": "Hediye Yok Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Hediye adımı açık ama henüz kart eklenmemişken editörde gösterilen uyarı.",
+          "defaultValue": "Bu alana editörden hediye kartı ekleyebilirsin.",
+          "groupId": "hediye"
+        },
+        {
+          "name": "yaziTipi",
+          "displayName": "Yazı Tipi",
+          "type": "ENUM",
+          "required": false,
+          "description": "Bölümün yazı tipi. 'Tema fontu' seçersen mağazanın kendi fontunu kullanır.",
+          "defaultValue": "sistem",
+          "groupId": "gorunum",
+          "enumTypeId": "lJkqeARtD4"
+        },
+        {
+          "name": "uyariRengi",
+          "displayName": "Uyarı Rengi",
+          "type": "COLOR",
+          "required": false,
+          "description": "Süre azaldığında geri sayımın ve süre çizgisinin aldığı renk.",
+          "defaultValue": "#d93025",
+          "groupId": "gorunum"
+        },
+        {
+          "name": "butonParlamasi",
+          "displayName": "Buton Parlaması",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "Ana butona vurgu renginden yayılan yumuşak bir ışık efekti ekler.",
+          "defaultValue": true,
+          "groupId": "gorunum"
+        },
+        {
+          "name": "oynanisIpucuMetni",
+          "displayName": "Oynanış İpucu",
+          "type": "TEXT",
+          "required": false,
+          "description": "Başlangıç ekranında butonun altında görünen kısa açıklama. Bölümün ne olduğunu anlatır.",
+          "defaultValue": "Parçaları sürükleyip doğru yerlerine bırak.",
+          "groupId": "metinler"
+        },
+        {
+          "name": "sureBilgiMetni",
+          "displayName": "Süre Bilgisi Metni",
+          "type": "TEXT",
+          "required": false,
+          "description": "Süre limiti açıkken başlangıç ekranında gösterilir. {sure} yerine toplam süre yazılır.",
+          "defaultValue": "Başladığında {sure} geri sayım başlar.",
+          "groupId": "metinler"
+        }
+      ],
+      "propGroups": [
+        {
+          "id": "icerik",
+          "name": "İçerik",
+          "description": "Bölümün üst kısmındaki başlık ve açıklama"
+        },
+        {
+          "id": "puzzle",
+          "name": "Puzzle Ayarları",
+          "description": "Görsel, parça sayısı ve puzzle görünümü"
+        },
+        {
+          "id": "kurallar",
+          "name": "Oyun Kuralları",
+          "description": "Süre, hamle ve ilerleme davranışı"
+        },
+        {
+          "id": "odul",
+          "name": "Ödül",
+          "description": "Puzzle tamamlandığında açılan ödül paneli"
+        },
+        {
+          "id": "hediye",
+          "name": "Hediye Seçimi",
+          "description": "Ödülden sonra gelen opsiyonel hediye seçme adımı"
+        },
+        {
+          "id": "metinler",
+          "name": "Metinler",
+          "description": "Buton, durum ve erişilebilirlik metinleri"
+        },
+        {
+          "id": "gorunum",
+          "name": "Görünüm",
+          "description": "Renkler, boşluklar ve ölçüler"
+        }
+      ]
+    }
+  ],
+  "customTypes": [
+    {
+      "id": "kU7p9BBTRx",
+      "name": "PuzzleZorluk",
+      "type": "enum",
+      "enumOptions": {
+        "Kolay": "kolay",
+        "Orta": "orta",
+        "Zor": "zor"
+      },
+      "isDynamic": false
+    },
+    {
+      "id": "5jMcww9BBj",
+      "name": "PuzzleTepsiKonumu",
+      "type": "enum",
+      "enumOptions": {
+        "Altta": "alt",
+        "Sağda": "sag",
+        "Solda": "sol"
+      },
+      "isDynamic": false
+    },
+    {
+      "id": "y6mbEONLkf",
+      "name": "PuzzleYanlisParcaDavranisi",
+      "type": "enum",
+      "enumOptions": {
+        "Tepsiye geri dönsün": "geriDon",
+        "Bırakıldığı yerde kalsın": "kal"
+      },
+      "isDynamic": false
+    },
+    {
+      "id": "r0lqZfId4S",
+      "name": "PuzzleHediyeSecimDavranisi",
+      "type": "enum",
+      "enumOptions": {
+        "Sepete ekle": "sepeteEkle",
+        "Bağlantıya git": "baglantiyaGit",
+        "Sadece işaretle": "isaretle"
+      },
+      "isDynamic": false
+    },
+    {
+      "id": "lJkqeARtD4",
+      "name": "PuzzleYaziTipi",
+      "type": "enum",
+      "enumOptions": {
+        "Tema fontu": "tema",
+        "Sistem (SF / Inter)": "sistem",
+        "Geometrik (Avenir)": "geometrik",
+        "Zarif serif": "serif"
+      },
+      "isDynamic": false
     }
   ]
 }

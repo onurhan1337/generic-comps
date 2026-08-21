@@ -1,2 +1,2 @@
-export { ExampleComponent } from "./ExampleComponent/index";
-export { ExampleSection } from "./ExampleSection/index";
+export { PuzzleHediyeKarti } from "./PuzzleHediyeKarti/index";
+export { PuzzleKampanya } from "./PuzzleKampanya/index";

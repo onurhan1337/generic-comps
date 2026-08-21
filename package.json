@@ -6,7 +6,10 @@
     "dev": "ikas-component dev",
     "build": "ikas-component build",
     "add": "ikas-component add",
-    "publish": "ikas-component publish"
+    "publish": "ikas-component publish",
+    "site:dev": "vite --config site/vite.config.ts",
+    "site:build": "vite build --config site/vite.config.ts",
+    "site:preview": "vite preview --config site/vite.config.ts"
   },
   "dependencies": {
     "preact": "^10.19.3"
