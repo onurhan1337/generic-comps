@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ikas-code-components": {
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/node_modules/@ikas/code-components-mcp/dist/index.js"
+      ]
+    }
+  }
+}

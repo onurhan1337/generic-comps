@@ -1,0 +1,95 @@
+{
+  "name": "ik",
+  "version": "1.0.0",
+  "projectId": "kcy86ma7",
+  "globalStyles": "./src/global.css",
+  "components": [
+    {
+      "id": "kcy86ma7-uZ2sezUGKc",
+      "name": "Example Component",
+      "entry": "./src/components/ExampleComponent/index.tsx",
+      "styles": "./src/components/ExampleComponent/styles.css",
+      "props": [
+        {
+          "name": "title",
+          "displayName": "Title",
+          "type": "TEXT",
+          "required": true,
+          "defaultValue": "Hello World",
+          "description": "The main title text"
+        },
+        {
+          "name": "description",
+          "displayName": "Description",
+          "type": "TEXT",
+          "required": false,
+          "defaultValue": "This is an example ikas code component built with Preact.",
+          "description": "The description text below the title"
+        },
+        {
+          "name": "showButton",
+          "displayName": "Show Button",
+          "type": "BOOLEAN",
+          "required": false,
+          "defaultValue": true,
+          "description": "Whether to show the action button"
+        },
+        {
+          "name": "buttonText",
+          "displayName": "Button Text",
+          "type": "TEXT",
+          "required": false,
+          "defaultValue": "Click Me",
+          "description": "The text displayed on the button"
+        }
+      ]
+    },
+    {
+      "id": "kcy86ma7-8ySaQdg4pR",
+      "name": "Example Section",
+      "entry": "./src/components/ExampleSection/index.tsx",
+      "styles": "./src/components/ExampleSection/styles.css",
+      "type": "section",
+      "props": [
+        {
+          "name": "heading",
+          "displayName": "Heading",
+          "type": "TEXT",
+          "required": true,
+          "defaultValue": "Welcome to Our Store",
+          "description": "The section heading text",
+          "groupId": "content"
+        },
+        {
+          "name": "subtitle",
+          "displayName": "Subtitle",
+          "type": "TEXT",
+          "required": false,
+          "defaultValue": "Discover our latest products and collections.",
+          "description": "The subtitle text below the heading",
+          "groupId": "content"
+        },
+        {
+          "name": "backgroundColor",
+          "displayName": "Background Color",
+          "type": "COLOR",
+          "required": false,
+          "description": "The section background color",
+          "groupId": "appearance"
+        }
+      ],
+      "propGroups": [
+        {
+          "id": "content",
+          "name": "Content",
+          "description": "Text and copy settings"
+        },
+        {
+          "id": "appearance",
+          "name": "Appearance",
+          "description": "Colors and visual style"
+        }
+      ]
+    }
+  ]
+}

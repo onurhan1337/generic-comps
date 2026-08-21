@@ -1,0 +1,22 @@
+{
+  "name": "ik",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "ikas-component dev",
+    "build": "ikas-component build",
+    "add": "ikas-component add",
+    "publish": "ikas-component publish"
+  },
+  "dependencies": {
+    "preact": "^10.19.3"
+  },
+  "devDependencies": {
+    "@ikas/component-cli": "^2.8.0",
+    "@ikas/bp-storefront": "^2.8.0",
+    "@ikas/code-components-mcp": "^2.8.0",
+    "@preact/preset-vite": "^2.10.3",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0"
+  }
+}

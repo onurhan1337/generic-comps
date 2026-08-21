@@ -1,0 +1,29 @@
+/*
+ * Global styles for your ikas code components project.
+ *
+ * Scoping: at build time every rule here is wrapped in a per-project scope
+ * (`:where([data-cc-scope~="<projectId>"])`) so styles from one project cannot
+ * leak into another project's components or the host page.
+ *
+ * What works:
+ *   - Class / tag / attribute selectors on elements you render (`.card`, `img`, `[data-x]`).
+ *   - `:root { --var: value }` — variables are rewritten onto the component wrapper
+ *     and inherit down its subtree. Use this for design tokens.
+ *   - `@media`, `@supports`, `@container`, `@layer` — walked recursively.
+ *   - `@keyframes`, `@font-face` — left untouched.
+ *
+ * What does NOT work (code components only style elements they own):
+ *   - Top-level `body { ... }` / `html { ... }` rules — dropped.
+ *   - Descendant selectors starting with `body` / `html` (e.g. `body .x`, `html.dark .y`) —
+ *     emitted but never match, because the component wrapper is INSIDE body, not
+ *     the other way around. Use a class on your own wrapper instead
+ *     (e.g. add `dark` via JS and write `.dark .x`).
+ *   - Document-wide resets, scrollbar tweaks, page backgrounds — belong to the theme.
+ *
+ * Loading order (all scoped to this project):
+ *   1. Global CSS (this file) — lowest specificity
+ *   2. Shared chunk CSS — multi-scope (.cc_a .sel, .cc_b .sel)
+ *   3. Component CSS — single scope (.cc_id .sel) — highest specificity
+ *
+ * Component-scoped styles naturally override these globals.
+ */
