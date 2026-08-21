@@ -258,6 +258,10 @@
   .puzzle-alan.tepsi-sag,
   .puzzle-alan.tepsi-sol {
     flex-direction: column;
+    /* Satır düzeninde flex-start gerekiyordu; sütuna dönünce aynı kural
+       tepsiyi enine daraltıyor (tepsi boş bir div) ve parçalar tek sütun
+       hâlinde sola yapışıyordu. */
+    align-items: stretch;
   }
 
   .puzzle-alan.tepsi-sag .tahta,

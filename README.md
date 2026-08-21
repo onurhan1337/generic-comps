@@ -29,7 +29,7 @@ Sayfanın ortasında gerçek bir jigsaw puzzle. Ziyaretçi dağınık parçalar�
 - **Slot tabanlı hediye seçimi ve sürpriz kutu** — hediye kartları `COMPONENT_LIST` slotu; mağaza sahibi editörden istediği kadar kart ekliyor. `hediyeKutuModu` ile kartlar kapalı kutuya dönüşüp tamamlanan puzzle'ın üzerine yan yana geliyor: kullanıcı tur başına yalnızca bir kutu açıyor, konfeti o anda patlıyor, diğerleri kilitleniyor. Yeniden oynandığında önceki turda alınan hediye tekrar seçilemiyor.
 - **Oyunlaştırma katmanı** — puzzle parçası ikonlu rozet, parça başına kutucuk gösteren ilerleme, süre azalınca uyarı rengine geçip nabız atan geri sayım, sınırlanabilen yeniden karıştırma hakkı ve son parça yerleşince tepsiyi devralan kutlama durumu.
 - **Kendini açıklayan başlangıç ekranı** — hafif cam örtü, arkasında açılan rehber görsel, tek satır oynanış ipucu ve süre limiti açıksa "ne kadar süren olacağı" rozeti. Geri sayım kullanıcı başlatmadan asla işlemiyor.
-- **Premium yüzey** — çok katmanlı gölge, cilalı butonlar ve vurgu renginden türeyen hâle; başlıklarda Sora, arayüzde Inter Tight (bileşenin kendi CSS'inde `@font-face` ile tanımlı, latin-ext dahil) ve tamamen ayarlanabilir palet.
+- **Premium yüzey** — çok katmanlı gölge, cilalı butonlar ve vurgu renginden türeyen hâle; Inter Tight (bileşenin kendi CSS'inde `@font-face` ile tanımlı, latin-ext dahil) ve tamamen ayarlanabilir palet.
 - **67 prop, yedi grup, hepsi Türkçe ve açıklamalı** — ekranda görünen hiçbir metin koda gömülü değil.
 
 ```

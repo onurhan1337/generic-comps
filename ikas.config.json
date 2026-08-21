@@ -750,8 +750,8 @@
           "displayName": "Oynanış İpucu",
           "type": "TEXT",
           "required": false,
-          "description": "Başlangıç ekranında butonun altında görünen kısa açıklama. Bölümün ne olduğunu anlatır.",
-          "defaultValue": "Parçaları sürükleyip doğru yerlerine bırak.",
+          "description": "Başlangıç ekranında butonun altında görünen kısa açıklama. Varsayılan olarak boş: yalnızca yazarsan gösterilir.",
+          "defaultValue": "",
           "groupId": "metinler"
         },
         {

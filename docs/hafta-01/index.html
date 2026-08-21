@@ -11,13 +11,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/generic-comps/assets/hafta01-a96cOViM.js"></script>
-    <link rel="modulepreload" crossorigin href="/generic-comps/assets/ortak-BhNvsGCd.js">
-    <link rel="stylesheet" crossorigin href="/generic-comps/assets/ortak-BRJ_4iIW.css">
-    <link rel="stylesheet" crossorigin href="/generic-comps/assets/hafta01-DUr1EwTS.css">
+    <script type="module" crossorigin src="/generic-comps/assets/hafta01-C8uG_R3P.js"></script>
+    <link rel="modulepreload" crossorigin href="/generic-comps/assets/ortak-DaePHzzh.js">
+    <link rel="stylesheet" crossorigin href="/generic-comps/assets/ortak-BtbnWEoX.css">
+    <link rel="stylesheet" crossorigin href="/generic-comps/assets/hafta01-XSD1txtq.css">
   </head>
   <body>
     <header class="ust-bar">
@@ -99,8 +99,14 @@
             kutuyu değil, puzzle silüetini takip ediyor. Kartondan kesilmiş hissini veren şey bu.
           </p>
           <figure class="gorsel-yeri" id="ss-parca">
-            <div class="bos">[ekran görüntüsü: tek parçanın yakın planı — topuz, girinti ve silüeti takip eden gölge]</div>
-            <figcaption>Tek bir parçanın anatomisi.</figcaption>
+            <img
+              src="../gorseller/ss-parca.jpg"
+              alt="Yarısı tamamlanmış puzzle: dört parça yerleşmiş, bir parça tepsiden sürükleniyor"
+              loading="lazy"
+              width="1600"
+              height="758"
+            />
+            <figcaption>Gerçek bir mağazada, oyun sürerken: dördü yerleşmiş, biri havada.</figcaption>
           </figure>
 
           <h3>2. Sürükle-bırak, dokunmatik ve klavye</h3>
@@ -144,8 +150,14 @@
             otomatik devre dışı kalıyor. Son parça yerleşince tepsi boş bir dikdörtgen olarak kalmıyor: yerini onay ikonlu bir kutlama durumu alıyor.
           </p>
           <figure class="gorsel-yeri" id="ss-odul">
-            <div class="bos">[ekran görüntüsü: tamamlanmış puzzle + açılan ödül paneli, konfetiyle]</div>
-            <figcaption>Puzzle tamamlandığında açılan ödül paneli.</figcaption>
+            <img
+              src="../gorseller/ss-odul.jpg"
+              alt="Açılan sürpriz kutu, konfeti ve altında kupon kodunu gösteren ödül şeridi"
+              loading="lazy"
+              width="1600"
+              height="850"
+            />
+            <figcaption>Kutu açıldığı anda konfeti patlıyor, kupon şeridi hemen altında beliriyor.</figcaption>
           </figure>
 
           <h3>5. Slot tabanlı hediye seçimi</h3>
@@ -173,8 +185,14 @@
             kutusu kurabiliyorsun.
           </p>
           <figure class="gorsel-yeri" id="ss-hediye">
-            <div class="bos">[ekran görüntüsü: hediye seçimi adımı — üç hediye kartı, biri seçili]</div>
-            <figcaption>Hediye kartları editörden dinamik olarak eklenir.</figcaption>
+            <img
+              src="../gorseller/ss-hediye.jpg"
+              alt="Tamamlanan puzzle'ın üzerinde yan yana duran üç kapalı sürpriz kutu"
+              loading="lazy"
+              width="1600"
+              height="758"
+            />
+            <figcaption>Puzzle bitince kutular tamamlanan görselin üzerine geliyor.</figcaption>
           </figure>
 
           <h3>6. Oyunlaştırma katmanı</h3>
@@ -216,6 +234,19 @@
             kullanıcı butona bastığında işlemeli.
           </p>
 
+          <figure class="gorsel-yeri" id="ss-baslangic">
+            <img
+              src="../gorseller/ss-baslangic.jpg"
+              alt="Başlangıç ekranı: hafif cam örtünün altında görünen rehber görsel ve 'Puzzle'ı başlat' butonu"
+              loading="lazy"
+              width="1600"
+              height="758"
+            />
+            <figcaption>
+              Başlangıç ekranı: örtü koyu bir perde değil, altındaki görsel seçiliyor.
+            </figcaption>
+          </figure>
+
           <h3>8. Tasarım dili</h3>
           <p>
             Bölümün tamamı tek bir yüzeyde toplanıyor: durum çubuğu, tahta, tepsi, ödül ve hediye
@@ -227,10 +258,13 @@
             Butonlar düz renk değil: üstte ışık, altta gölge, kenarda iç çizgi ve vurgu renginden
             yayılan yumuşak bir hâle. Bu katmanlar seçilen renge göre türetildiği için palet
             değiştiğinde efekt bozulmuyor. Tipografi de bölümün kendi kimliği: başlıklar için
-            <strong>Sora</strong>, arayüz için <strong>Inter Tight</strong> bileşenin kendi CSS'inde
-            <code>@font-face</code> ile tanımlı (Türkçe için latin-ext dahil) — <code>@import</code>
-            satırını taşıyan tema derleyicilerinde bile yükleniyor, mağazanın temasından bağımsız
-            olarak her yerde aynı karakterde duruyor. Renkler ise tamamen mağazanın kimliğine uyarlanabilir.
+            <strong>Inter Tight</strong>, bileşenin kendi CSS'inde <code>@font-face</code> ile
+            tanımlı (Türkçe için latin-ext dahil), yani mağazanın temasından bağımsız olarak her
+            yerde aynı karakterde duruyor. Küçük bir tuzak: ikas derleyicisi <code>@font-face</code>
+            adlarını bileşen scope'uyla yeniden adlandırıp aynı dosyadaki <code>font-family</code>
+            kullanımlarını da güncelliyor. Font adını JS'ten inline style ile verirsen bu eşlemenin
+            dışında kalıyor ve font hiç yüklenmemiş gibi görünüyor — bu yüzden adlar CSS'te düz
+            yazılıyor. Renkler ise tamamen mağazanın kimliğine uyarlanabilir.
           </p>
 
           <h3>9. Editör deneyimi</h3>
@@ -240,14 +274,22 @@
             görünen hiçbir metin koda gömülü değil — hepsi varsayılan değeri olan birer prop, yani
             çok dilli mağazalarda çevrilebilir.
           </p>
-          <figure class="gorsel-yeri" id="ss-editor">
-            <div class="bos">[ekran görüntüsü: ikas editöründe sağ panel — gruplanmış prop listesi]</div>
-            <figcaption>ikas editöründe prop grupları.</figcaption>
-          </figure>
-
-          <figure class="gorsel-yeri" id="ss-mobil">
-            <div class="bos">[ekran görüntüsü: mobil ve tablet görünüm yan yana]</div>
-            <figcaption>Mobil ve tablet yerleşimi.</figcaption>
+          <figure class="gorsel-yeri gorsel-cift" id="ss-mobil">
+            <img
+              src="../gorseller/ss-mobil-baslangic.jpg"
+              alt="Mobilde başlangıç ekranı"
+              loading="lazy"
+              width="828"
+              height="1492"
+            />
+            <img
+              src="../gorseller/ss-mobil.jpg"
+              alt="Mobilde oyun ekranı: tahta üstte, parça tepsisi altta"
+              loading="lazy"
+              width="828"
+              height="1492"
+            />
+            <figcaption>Mobilde tepsi her zaman altta; dokunma hedefleri büyür, sayfa kaymaz.</figcaption>
           </figure>
         </div>
       </section>

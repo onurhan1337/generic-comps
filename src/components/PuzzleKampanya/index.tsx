@@ -42,13 +42,6 @@ const ROZET_PATH =
  * premium görünümü versin diye sabit: önce mağazada yüklüyse dar-geniş
  * "display" kesimleri, sonra platformun kendi sistem yüz(ler)i.
  */
-const YAZI_TIPI =
-  '"Inter Tight", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-
-/** Başlıklar: styles.css içinde yüklenen display kesimi. */
-const BASLIK_YAZI_TIPI =
-  '"Sora", "Inter Tight", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-
 function durumuOku(anahtar: string): KayitliDurum | null {
   if (typeof window === "undefined") return null;
   try {
@@ -373,8 +366,6 @@ export function PuzzleKampanya(props: Props) {
     "--pk-yuzey": tahtaArkaPlanRengi || "#ffffff",
     "--pk-kose": `${kose}px`,
     "--pk-ic-kose": `${icKose}px`,
-    "--pk-font": YAZI_TIPI,
-    "--pk-baslik-font": BASLIK_YAZI_TIPI,
   } as Record<string, string>;
 
   return (

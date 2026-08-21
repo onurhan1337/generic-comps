@@ -117,7 +117,7 @@ export interface Props {
   uyariRengi?: string;
   /** Ana butona vurgu renginden yayılan yumuşak bir ışık efekti ekler. */
   butonParlamasi?: boolean;
-  /** Başlangıç ekranında butonun altında görünen kısa açıklama. Bölümün ne olduğunu anlatır. */
+  /** Başlangıç ekranında butonun altında görünen kısa açıklama. Varsayılan olarak boş: yalnızca yazarsan gösterilir. */
   oynanisIpucuMetni?: string;
   /** Süre limiti açıkken başlangıç ekranında gösterilir. {sure} yerine toplam süre yazılır. */
   sureBilgiMetni?: string;
