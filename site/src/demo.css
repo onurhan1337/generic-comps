@@ -1,0 +1,70 @@
+.demo-sarmal .puzzle-kampanya {
+  border-radius: 12px;
+}
+
+.demo-ayarlar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid var(--cizgi);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.demo-ayarlar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--metin-soluk);
+}
+
+.demo-ayarlar label.onay {
+  gap: 6px;
+}
+
+.demo-ayarlar select,
+.demo-ayarlar input[type="range"] {
+  font: inherit;
+  font-size: 13px;
+}
+
+.demo-ayarlar select {
+  padding: 5px 8px;
+  border: 1px solid var(--cizgi);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--metin);
+}
+
+.demo-buton {
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--cizgi);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.demo-buton:hover {
+  border-color: var(--metin);
+}
+
+.demo-ayarlar .deger {
+  min-width: 38px;
+  color: var(--metin);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 700px) {
+  .demo-ayarlar {
+    gap: 12px;
+  }
+}
