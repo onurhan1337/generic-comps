@@ -1,0 +1,549 @@
+/* Alt bileşenlerin stilleri — hepsi bu bölümün scope'una dahil edilir. */
+@import "../../sub-components/PuzzleTahtasi/styles.css";
+@import "../../sub-components/OdulPaneli/styles.css";
+@import "../../sub-components/HediyeSecimi/styles.css";
+@import "../../sub-components/Konfeti/styles.css";
+
+.puzzle-kampanya {
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  font-family: var(--pk-font, inherit);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.kampanya-ic {
+  margin: 0 auto;
+}
+
+/* --- Başlık --- */
+
+.kampanya-baslik-alani {
+  max-width: 620px;
+  margin: 0 auto 26px;
+  text-align: center;
+}
+
+/* Gamification rozeti — düz bir etiket yerine ikonlu bir çip */
+.ust-etiket {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px 0 10px;
+  margin: 0 0 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.045);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  opacity: 0.72;
+}
+
+.etiket-ikon {
+  width: 13px;
+  height: 13px;
+  opacity: 0.85;
+}
+
+.kampanya-baslik {
+  display: block;
+  margin: 0;
+  font-size: clamp(27px, 3.6vw, 42px);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.032em;
+}
+
+.kampanya-aciklama {
+  margin: 10px auto 0;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.55;
+  opacity: 0.55;
+}
+
+.kampanya-aciklama p {
+  margin: 0;
+}
+
+/* --- Oyun kartı --- */
+
+.oyun-kutusu {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 12px 24px -12px rgba(0, 0, 0, 0.18),
+    0 32px 64px -32px rgba(0, 0, 0, 0.3);
+}
+
+.oyun-kutusu:has(.puzzle-alan.tepsi-sag),
+.oyun-kutusu:has(.puzzle-alan.tepsi-sol) {
+  max-width: 980px;
+}
+
+.gorsel-yok {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 44px 24px;
+  border: 1px dashed rgba(0, 0, 0, 0.16);
+  border-radius: 16px;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0.55;
+}
+
+/* --- Süre çizgisi (kartın üst kenarında tükenen ince şerit) --- */
+
+.sure-cizgisi {
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.sure-dolgu {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--pk-vurgu);
+  transition: width 1s linear, background-color 400ms ease;
+}
+
+.sure-dolgu.acil {
+  background: var(--pk-uyari);
+  animation: sure-nabiz 1s ease-in-out infinite;
+}
+
+@keyframes sure-nabiz {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* --- Durum çubuğu --- */
+
+.oyun-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 4px 4px 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ilerleme-alani {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Parça göstergesi — her parça için bir kutucuk */
+.pip-satiri {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.pip {
+  width: 10px;
+  height: 5px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.1);
+  transition: background-color 260ms cubic-bezier(0.16, 1, 0.3, 1), transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pip.dolu {
+  background: var(--pk-vurgu);
+  transform: scaleX(1.12);
+}
+
+.ilerleme-cubugu {
+  position: relative;
+  flex: 1 1 auto;
+  height: 5px;
+  max-width: 180px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.09);
+  overflow: hidden;
+}
+
+.ilerleme-dolgu {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--pk-vurgu);
+  transition: width 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ilerleme-yazisi {
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: 0.5;
+}
+
+.sayaclar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.sayac {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: 0.72;
+  transition: color 300ms ease, background-color 300ms ease, opacity 300ms ease;
+}
+
+.sayac-ikon {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+
+/* Süre azaldığında geri sayım öne çıkar */
+.sayac.sure.acil {
+  color: var(--pk-uyari);
+  background: rgba(0, 0, 0, 0.05);
+  background: color-mix(in srgb, var(--pk-uyari) 10%, transparent);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pk-uyari) 26%, transparent);
+  opacity: 1;
+  animation: sayac-nabiz 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.sayac.sure.acil .sayac-ikon {
+  opacity: 1;
+}
+
+@keyframes sayac-nabiz {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+.metin-buton {
+  height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.45;
+  transition: opacity 160ms ease, background-color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.metin-buton:hover {
+  background: rgba(0, 0, 0, 0.04);
+  opacity: 1;
+}
+
+/* --- Oyun alanı ve örtüler --- */
+
+.oyun-sarmal {
+  position: relative;
+}
+
+/* Hafif saydam cam: altındaki görsel seçilir, üstündeki mesaj net okunur */
+.ortu {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  /* color-mix desteklenmiyorsa bu düz değer geçerli kalır */
+  background: rgba(255, 255, 255, 0.42);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pk-yuzey) 28%, transparent),
+    color-mix(in srgb, var(--pk-yuzey) 52%, transparent)
+  );
+  backdrop-filter: blur(5px) saturate(1.6);
+  -webkit-backdrop-filter: blur(5px) saturate(1.6);
+  z-index: 45;
+  animation: ortu-gir 300ms ease;
+}
+
+@keyframes ortu-gir {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ortu-kutu {
+  max-width: 340px;
+  text-align: center;
+}
+
+.ortu-baslik {
+  margin: 0 0 6px;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.ortu-metin {
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
+.ortu-ipucu {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
+.ortu-sure {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 8px 0 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+/* --- Ana buton: cam-cila katmanları --- */
+
+.ana-buton {
+  position: relative;
+  height: 46px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 999px;
+  background-color: var(--pk-vurgu);
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.04) 46%,
+    rgba(0, 0, 0, 0.1)
+  );
+  color: var(--pk-vurgu-metin);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.16),
+    0 1px 2px rgba(0, 0, 0, 0.16),
+    0 10px 22px -8px rgba(0, 0, 0, 0.42);
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms ease,
+    background-image 200ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Vurgu renginden yayılan yumuşak ışık */
+.ana-buton.parlak::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: inherit;
+  background: radial-gradient(60% 60% at 50% 55%, var(--pk-vurgu), transparent 70%);
+  background: radial-gradient(
+    60% 60% at 50% 55%,
+    color-mix(in srgb, var(--pk-vurgu) 55%, transparent),
+    transparent 70%
+  );
+  filter: blur(14px);
+  opacity: 0.55;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+
+.ana-buton:hover {
+  transform: translateY(-1px);
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.08) 46%,
+    rgba(0, 0, 0, 0.08)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.16),
+    0 2px 4px rgba(0, 0, 0, 0.16),
+    0 16px 30px -10px rgba(0, 0, 0, 0.46);
+}
+
+.ana-buton.parlak:hover::after {
+  opacity: 0.8;
+}
+
+.ana-buton:active {
+  transform: translateY(0) scale(0.985);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.24),
+    0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+.ana-buton:focus-visible {
+  outline: 2px solid var(--pk-vurgu);
+  outline-offset: 3px;
+}
+
+/* --- Ödül ve hediye alanı (kartın içinde) --- */
+
+.odul-alani {
+  margin-top: 14px;
+  padding-top: 2px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* --- Tablet --- */
+
+@media (max-width: 900px) {
+  .oyun-kutusu:has(.puzzle-alan.tepsi-sag),
+  .oyun-kutusu:has(.puzzle-alan.tepsi-sol) {
+    max-width: 720px;
+  }
+}
+
+/* --- Mobil --- */
+
+@media (max-width: 640px) {
+  .puzzle-kampanya {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .kampanya-baslik-alani {
+    margin-bottom: 20px;
+  }
+
+  .kampanya-aciklama {
+    font-size: 14px;
+  }
+
+  .oyun-kutusu {
+    padding: 10px;
+  }
+
+  .sure-cizgisi {
+    left: 10px;
+    right: 10px;
+  }
+
+  .oyun-bar {
+    gap: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .pip {
+    width: 8px;
+    height: 4px;
+  }
+
+  .ilerleme-cubugu {
+    max-width: none;
+  }
+
+  .sayaclar {
+    gap: 4px;
+  }
+
+  .sayac,
+  .metin-buton {
+    height: 24px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  .ana-buton {
+    height: 48px;
+    padding: 0 26px;
+  }
+}
+
+/* Çok dar ekranlarda sayaçlar alt satıra iner */
+@media (max-width: 420px) {
+  .oyun-bar {
+    flex-wrap: wrap;
+  }
+
+  .ilerleme-alani {
+    flex: 1 1 100%;
+  }
+
+  .sayaclar {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ilerleme-dolgu,
+  .sure-dolgu,
+  .pip,
+  .ana-buton,
+  .metin-buton,
+  .sayac {
+    transition: none;
+  }
+
+  .sure-dolgu.acil,
+  .sayac.sure.acil,
+  .ortu {
+    animation: none;
+  }
+}

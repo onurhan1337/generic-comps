@@ -1,0 +1,235 @@
+.puzzle-alan {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  /* Dokunmatik seçim/uzun basma menüsü sürüklemeyi bozmasın */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.puzzle-alan.tepsi-alt {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Satır yerleşiminde stretch KULLANILMAZ: tahtanın aspect-ratio'su gerilir ve
+   ölçüm/yerleşim arasında geri besleme döngüsü oluşur. */
+.puzzle-alan.tepsi-sag {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.puzzle-alan.tepsi-sol {
+  flex-direction: row-reverse;
+  align-items: flex-start;
+}
+
+.tahta {
+  position: relative;
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 0;
+  overflow: visible;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  /* Kartın zemininden hafifçe ayrışan, içe gömülü bir yüzey */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.022), rgba(0, 0, 0, 0.022));
+}
+
+.puzzle-alan.tepsi-sag .tahta,
+.puzzle-alan.tepsi-sol .tahta {
+  flex: 1 1 62%;
+  margin: 0;
+}
+
+.rehber {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+.yuva-cizgileri {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.yuva-cizgileri .yuva-bos {
+  fill: rgba(0, 0, 0, 0.022);
+  stroke: rgba(0, 0, 0, 0.11);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.yuva-cizgileri .yuva-dolu {
+  fill: none;
+  stroke: none;
+}
+
+.yuva-dugmesi {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 15;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.yuva-dugmesi:disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.yuva-dugmesi:not(:disabled):hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.yuva-dugmesi:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.tepsi {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.022), rgba(0, 0, 0, 0.022));
+  /* Yükseklik JS ile kesin olarak veriliyor; ölçülen bir özelliği animasyona
+     bağlamak ResizeObserver ile geri besleme yaratır — sadece opaklık geçişli. */
+  transition: opacity 220ms ease;
+}
+
+.puzzle-alan.tepsi-sag .tepsi,
+.puzzle-alan.tepsi-sol .tepsi {
+  flex: 1 1 38%;
+}
+
+/* Tüm parçalar yerleştiğinde tepsi kaybolur */
+.tepsi.bos {
+  min-height: 0;
+  margin-top: -16px;
+  opacity: 0;
+  border-color: transparent;
+}
+
+.maske-tanimlari {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.parca {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: grab;
+  /* Parçanın üstünde başlayan dokunuş sayfayı kaydırmasın — sadece parça
+     üzerinde geçerli, böylece bölümün geri kalanında sayfa normal kayar. */
+  touch-action: none;
+  transition: filter 160ms ease;
+  will-change: transform, left, top;
+}
+
+.parca.suruklenyor {
+  cursor: grabbing;
+  transition: none;
+}
+
+.parca.yerlesti {
+  cursor: default;
+  pointer-events: none;
+}
+
+.parca:focus-visible {
+  outline: none;
+}
+
+.parca:focus-visible .parca-kenar path,
+.parca.secili .parca-kenar path {
+  stroke: currentColor;
+  stroke-width: 3;
+}
+
+.parca-yuz {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  -webkit-user-drag: none;
+}
+
+.parca-kenar {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Parça yuvasına oturduğunda kısa bir "klik" hissi */
+.parca.oturdu {
+  animation: parca-otur 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes parca-otur {
+  0% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Tablet ve altı: yan tepsi alta iner */
+@media (max-width: 900px) {
+  .puzzle-alan.tepsi-sag,
+  .puzzle-alan.tepsi-sol {
+    flex-direction: column;
+  }
+
+  .puzzle-alan.tepsi-sag .tahta,
+  .puzzle-alan.tepsi-sol .tahta {
+    flex: 0 1 auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .puzzle-alan.tepsi-sag .tepsi,
+  .puzzle-alan.tepsi-sol .tepsi {
+    flex: 0 0 auto;
+  }
+}
+
+/* Kaba işaretçi (parmak) — dokunma hedefleri büyür */
+@media (pointer: coarse) {
+  .parca {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parca.oturdu {
+    animation: none;
+  }
+
+  .tepsi {
+    transition: none;
+  }
+}
